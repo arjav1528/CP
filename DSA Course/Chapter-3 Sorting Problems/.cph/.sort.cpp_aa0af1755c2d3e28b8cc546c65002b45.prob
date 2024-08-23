@@ -1,0 +1,1 @@
+{"name":"Local: sort","url":"/home/arjav/CP/DSA Course/Chapter-3 Sorting Problems/sort.cpp","tests":[{"id":1724421327041,"input":"10\n1 0 1 1 1 0 1 1 1 1","output":"4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/arjav/CP/DSA Course/Chapter-3 Sorting Problems/sort.cpp","group":"local","local":true}
