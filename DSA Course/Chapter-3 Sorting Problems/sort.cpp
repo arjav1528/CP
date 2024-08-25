@@ -3,7 +3,6 @@ using namespace std;
 
 
 
-
 //Largest Element in An Array
 void q1(){
     int n;
@@ -188,23 +187,18 @@ void q9(){
 }
 //Find the missing number 
 void q10(){
-    int N,n;
+    int N;
     cin>>N;
-    n = N-1;
-    int arr[n];
-    int hash[N+1] = {0};
-    // memset(hash,0,N * sizeof(hash[0]));
-    for(int i=0;i<n;i++){
+    int arr[N] = {0};
+    for(int i=0;i<N;i++){
         cin>>arr[i];
-        hash[arr[i]]++;
-    }
-    for(int i=0;i<=N;i++){
-        if(hash[i] == 0 && i!=0){
-            cout<<i;
-        }
-    
-    }
 
+    }
+    for(int i=0;i<N;i++){
+        if(arr[i] == 0){
+            cout<<i+1;
+        }
+    }
 
 }
 //Count Maximum consecutive one's in the array
@@ -213,15 +207,39 @@ void q11(){
     cin>>n;
     int arr[n];
     int max = 0;
+    int check = 0;
     for(int i=0;i<n;i++){
-        int check = 0;
         cin>>arr[i];
         if(arr[i]==1){
             check++;
         }
+        else{
+            check = 0;
+        }
+        max = max>=check ? max : check;
     }
+    cout<<max;
 }
+//Count The number which appears only once
+void q12(){
+    int n;
+    cin>>n;
+    int arr[n];
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    int count[n+1] = {0};
+    for(int i=0;i<n;i++){
+        count[arr[i]]++;
+    }
+    for(int i=0;i<n;i++){
+        if(count[arr[i]] == 1){
+            cout<<arr[i];
+        }
+    }
 
+
+}
 
 
 
@@ -244,6 +262,8 @@ int main(){
     // q7();
     // q8();
     // q9();
-    q10();
+    // q10();
+    // q11();
+    q12();
     
 }
