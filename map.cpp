@@ -1,15 +1,16 @@
+#include<iostream>
 #include<bits/stdc++.h>
 using namespace std;
 int main(){
-    map<string,int> map;
-    map["apple"]=1;
-    map["banana"]=2;
-    map["cherry"]=3;
-    map["date"]=4;
-    map["elderberry"]=5;
-    for(const auto& pair : map){
-        cout<<pair.first<<" "<<pair.second<<endl;
+    vector<int> vec = {3,2,3};
+    map<int,int> mpp;
+    for(int i=0;i<vec.size();i++){
+        mpp[vec[i]]++;
     }
-    return 0;
+    for(auto it : mpp){
+        if(it.second > (vec.size()/2)){
+            cout<<it.first<<endl;
+        }
+    }
     
 }
