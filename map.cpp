@@ -2,15 +2,13 @@
 #include<bits/stdc++.h>
 using namespace std;
 int main(){
-    vector<int> vec = {3,2,3};
+    vector<int> arr = {100,4,200,1,3,2};
     map<int,int> mpp;
-    for(int i=0;i<vec.size();i++){
-        mpp[vec[i]]++;
+    for(int i=0;i<arr.size();i++){
+        mpp[arr[i]]++;
     }
     for(auto it : mpp){
-        if(it.second > (vec.size()/2)){
-            cout<<it.first<<endl;
-        }
+        cout<<it.first<<"-"<<it.second<<endl;
     }
     
 }

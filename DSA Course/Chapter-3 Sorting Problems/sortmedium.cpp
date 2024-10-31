@@ -192,6 +192,7 @@ void q7(){
         cout<<final[i]<<" ";
     }
 }
+//Next Permutation of an Array
 void q8(){
     int n;
     cin>>n;
@@ -224,6 +225,96 @@ void q8(){
         cout<<arr[i]<<" ";
     }
 }
+void q9(){
+    int n;
+    cin>>n;
+    int arr[n];
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    vector<int> final;
+    int mid = -1;
+    while(mid<(n-1)){
+        int maxel = -1;
+        int maxi = 0;
+        for(int i=(mid+1);i<n;i++){
+            if(arr[i]>maxel){
+                maxel = arr[i];
+                maxi = i;
+            }    
+        }
+        final.push_back(maxel);
+        mid = maxi;
+    }
+    for(int i=0;i<final.size();i++){
+        cout<<final[i]<<" ";
+    }
+    // cout<<maxindex;
+
+
+}
+void q10(){
+    int n;
+    cin>>n;
+    vector<int> arr;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        arr.push_back(x);
+    }
+    sort(arr.begin(),arr.end());
+    // for(int i=0;i<n;i++){
+    //     cout<<arr[i]<<" ";
+    // }
+    int count = 1;
+    int max_count = 0;
+    for(int i=0;i<(n-1);i++){
+        if((arr[i+1] - arr[i]) == 1){
+            if(count==0){
+                count+=2;
+            }
+            else{
+                count++;
+            }
+        }
+        else{
+            count=0;
+        }
+        if(count>max_count){
+            max_count = count;
+        }
+    }
+    cout<<max_count;
+
+}
+int subarraySum(vector<int>& arr, int k) {
+        int n=arr.size();
+        int start = 0;
+        int current = 0;
+        int sum = arr[0];
+        int count = 0;
+        while(current < n){
+            if(sum<k){
+                current++;
+                if(current<n){
+                    sum+=arr[current];
+                }
+                
+            }
+            else if(sum>k){
+                sum-=arr[start];
+                start++;
+            }
+            else{
+                count++;
+                current++;
+                if(current<n){
+                    sum+=arr[current];
+                }
+            }
+        }
+        return count;
+}
 
 
 
@@ -236,6 +327,11 @@ int main(){
     // q5();
     // q6();
     // q7();
-    q8();
+    // q8();
+    // q9();
+    // q10();
+    vector<int> final = {1,2,3,-3,1,1,1,4,2,-3};
+    int ans = subarraySum(final,3);
+    cout<<ans;
 
 }
