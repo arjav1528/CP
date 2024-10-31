@@ -43,32 +43,17 @@ class Solution {
 public:
     int subarraySum(vector<int>& arr, int k) {
         int n=arr.size();
-        int start = 0;
-        int current = 0;
-        int sum = arr[0];
+        map<int,int> mpp;
+        mpp[0] = 1;
         int count = 0;
-        while(current < n){
-            if(sum<k){
-                current++;
-                if(current<n){
-                    sum+=arr[current];
-                }
-                
-            }
-            else if(sum>k){
-                sum-=arr[start];
-                start++;
-            }
-            else{
-                count++;
-                current++;
-                if(current<n){
-                    sum+=arr[current];
-                }
-            }
+        int preSum =0;
+        for(int i=0;i<n;i++){
+            preSum += arr[i];
+            int remove = preSum - k;
+            count += mpp[remove];
+            mpp[preSum]++;
         }
         return count;
-        
     }
 };
 // @lc code=end
