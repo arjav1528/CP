@@ -287,33 +287,23 @@ void q10(){
     cout<<max_count;
 
 }
-int subarraySum(vector<int>& arr, int k) {
-        int n=arr.size();
-        int start = 0;
-        int current = 0;
-        int sum = arr[0];
-        int count = 0;
-        while(current < n){
-            if(sum<k){
-                current++;
-                if(current<n){
-                    sum+=arr[current];
-                }
-                
-            }
-            else if(sum>k){
-                sum-=arr[start];
-                start++;
-            }
-            else{
-                count++;
-                current++;
-                if(current<n){
-                    sum+=arr[current];
-                }
-            }
+void pascalTriangle(){
+    int n;
+    cin>>n;
+    vector<vector<int>> ans;
+    ans.push_back({1});
+    ans.push_back({1,1});
+    // vector<int> temp(3,1);
+
+    // temp[1] = ans[ans.size()-1][0] + ans[ans.size()-1][1];
+    // ans.push_back(temp);
+    for(int i=2;i<3)
+    for(int i=0;i<ans.size();i++){
+        for(int j=0;j<(ans[i].size());j++){
+            cout<<ans[i][j];
         }
-        return count;
+        cout<<endl;
+    }
 }
 
 
@@ -330,8 +320,6 @@ int main(){
     // q8();
     // q9();
     // q10();
-    vector<int> final = {1,2,3,-3,1,1,1,4,2,-3};
-    int ans = subarraySum(final,3);
-    cout<<ans;
+    pascalTriangle();
 
 }
