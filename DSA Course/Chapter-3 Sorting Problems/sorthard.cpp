@@ -28,13 +28,16 @@ using namespace std;
 // }
 int main(){
     // threeSum();
-    vector<vector<int>> temp = {{1,4},{0,0}};
-    sort(temp.begin(),temp.end());
-    for(int i=0;i<2;i++){
-        for(int j=0;j<2;j++){
-            cout<<temp[i][j]<<" ";
-        }
-        cout<<endl;
-    }
+    // vector<vector<int>> temp = {{1,4},{0,0}};
+    // sort(temp.begin(),temp.end());
+    // for(int i=0;i<2;i++){
+    //     for(int j=0;j<2;j++){
+    //         cout<<temp[i][j]<<" ";
+    //     }
+    //     cout<<endl;
+    // }
+    vector<int> nums1 = {1,2,3,4,5,6,7};
+    vector<int> num1(nums1.begin(),nums1.begin() + 2);
+    cout<<num1.size();
 
 }
