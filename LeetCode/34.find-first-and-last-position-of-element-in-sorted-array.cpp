@@ -52,32 +52,43 @@ public:
     vector<int> searchRange(vector<int>& arr, int target) {
         int low = 0;
         int high = arr.size()-1;
-        vector<int> ans;
-        int p;
+        int first = -1;
         while(low<=high){
             int mid = (low+high)/2;
-            if(arr[mid] ==target){
-                ans.push_back(mid);
-                if(arr[mid-1]==target){
-                    // ans.push_back(arr[low];
-                    low = (mid-1);
-                    ans.push_back(arr[low];
-                }
-                if(arr[mid+1] = target){
-                    high = (mid+1);
-                    ans.push_back(arr[high];
-                }
-            }
-            else if(arr[mid] < target){
-                low = mid+1;
-            }
-            else{
+            if(arr[mid] == target){
+                first = mid;
+
                 high = mid-1;
             }
+            else if(arr[mid] > target){
+                high = mid-1;
+            }
+            else{
+                low = mid+1;
+            }
+
         }
-        sort(ans.begin(),ans.end());
-        return ans;
-        // return {-1};
+        low = 0;
+        high = arr.size()-1;
+        int last = -1;
+        while(low<=high){
+            int mid = (low+high)/2;
+            if(arr[mid] == target){
+                last = mid;
+                // high = mid-1;
+                low = mid+1;
+            }
+            else if(arr[mid] > target){
+                high = mid-1;
+                
+            }
+            else{
+                
+                low = mid+1;
+            }
+
+        }
+        return {first,last};
 
         
     }

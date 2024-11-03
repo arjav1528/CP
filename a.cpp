@@ -1,9 +1,28 @@
 #include<bits/stdc++.h>
 using namespace std;
-int main(){
-    vector<int> temp = {3,5,4,6,4};
-    temp.assign(temp.size(),0);
-    for(int i=0;i<temp.size();i++){
-        cout<<temp[i]<<" ";
+bool isBalanced(string num) {
+        int even = 0;
+        int odd = 0;
+        for(int i=0;i<(num.size());i++){
+            if(i%2){
+                even+=int(num[i]);
+                cout<<even<<endl;
+            }
+            else{
+                odd+=int(num[i]);
+                cout<<odd<<endl;
+            }
+        }
+        // if(odd==even){
+        //     return true;
+        // }
+        // else{
+        //     return false;
+        // }
+        
     }
+int main(){
+    // cout<<isBalanced("12345");
+    string a = "23456";
+    cout<<int(a[0]);
 }
