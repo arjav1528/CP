@@ -1,28 +1,21 @@
+#include<iostream>
 #include<bits/stdc++.h>
 using namespace std;
-bool isBalanced(string num) {
-        int even = 0;
-        int odd = 0;
-        for(int i=0;i<(num.size());i++){
-            if(i%2){
-                even+=int(num[i]);
-                cout<<even<<endl;
-            }
-            else{
-                odd+=int(num[i]);
-                cout<<odd<<endl;
-            }
-        }
-        // if(odd==even){
-        //     return true;
-        // }
-        // else{
-        //     return false;
-        // }
-        
-    }
 int main(){
-    // cout<<isBalanced("12345");
-    string a = "23456";
-    cout<<int(a[0]);
+    string num = "52";
+    string s;
+    for(int i=num.size()-1;i>=0;i--){
+        char t = num[i];
+
+            // string s = "";
+        if(t == 49 || t == 51 || t == 53 || t == 55 || t == 57){
+            s = num.substr(0,i);
+            break;
+            // return s;
+
+        }
+            
+    }
+    cout<<s;
+    // return num;
 }
