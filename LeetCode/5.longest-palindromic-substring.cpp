@@ -69,8 +69,8 @@ public:
 private:
     int expandAroundCenter(string s, int left, int right) {
         while (left >= 0 && right < s.length() && s[left] == s[right]) {
-            left--;
             right++;
+            left--;
         }
         return right - left - 1;
     }    
