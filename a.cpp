@@ -24,4 +24,8 @@ int main(){
         temp->next = temp;
         temp = temp;
     }
+    Node* b = head;
+    while(b->next != nullptr){
+        
+    }
 }
