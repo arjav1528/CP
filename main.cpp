@@ -73,47 +73,34 @@ public :
     }
 public:
     bool isPalindrome(ListNode* head) {
-        ListNode* temp = head;
-        ListNode* rest = secondHalf(head);
-        rest = reverseList(rest);
-        while(rest != nullptr){
-            if(rest->val != temp->val){
-                rest = reverseList(rest);
-                return false;
-            }
-            rest = rest->next;
-        }
-        rest = reverseList(rest);
-        return true;
-
-        
-    
-        
-    }
-};
-int main(){
-        Solution mySolution;
-        vector<int> arr = mySolution.takeInputArray();
-        // mySolution.printArray(arr);
-        ListNode* head = new ListNode(arr[0],nullptr);
-        ListNode* mover = head;
-        for(int i=1;i<arr.size();i++){
-            ListNode* temp = new ListNode(arr[i]);
-            mover->next = temp;
-            mover = mover->next;
-
-        }
         ListNode* first = head;
-        ListNode* second = mySolution.secondHalf(first);
-        second = mySolution.reverseList(second);
+        ListNode* second = secondHalf(first);
+        second = reverseList(second);
         while(second != nullptr){
             if(first->val != second->val){
-                cout<<"This is not a palindrome";
-                return 0;
+                return false;
             }
             second = second->next;
             first = first->next;
         }
+        return true;    
+    }
+};
+int main(){
+    Solution mySolution;
+    vector<int> arr = mySolution.takeInputArray();
+    ListNode* head = new ListNode(arr[0],nullptr);
+    ListNode* mover = head;
+    for(int i=1;i<arr.size();i++){
+        ListNode* temp = new ListNode(arr[i]);
+        mover->next = temp;
+        mover = mover->next;
+    }
+    if(mySolution.isPalindrome(head)){
         cout<<"This is a palindrome";
-        return 0;
+    }
+    else{
+        cout<<"This is not a palindrome";
+    }
+    return 0;
 }
