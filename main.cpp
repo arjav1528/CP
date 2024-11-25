@@ -17,6 +17,54 @@ class ListNode{
 };
 class Solution {
 public :
+    bool canAliceWin(int n){
+        int x = 10;
+        bool aliceWin = 0;
+        while(n>0){
+            if(n>=x){
+                n = n-x;
+                x--;
+                aliceWin = !aliceWin;
+            }
+            else{
+                return aliceWin;
+            }           
+        }
+        return aliceWin;
+    }
+public:
+    long long shiftDistance(string s, string t, vector<int>& nextCost, vector<int>& previousCost) {
+        int i = 0;
+        int shiftleftcost = 0;
+        int shiftrightcost = 0;
+        long long totalCost = 0;
+        while(i<s.length()){
+            if(s[i]<t[i]){
+                if(s[i]== 'a'){
+
+                }
+                else{
+                    shiftleftcost += previousCost[s[i]-97];
+                }
+                if(s[i]=='z'){
+
+                }
+                else{
+                    shiftrightcost += nextCost[s[i]-97];
+                }  
+            }
+            else if(s[i]>t[i]){
+                
+                
+            }
+            else{
+                i++;
+            }
+        }
+        return totalCost;
+        
+    }
+public :
     void printArray(vector<int> &arr){
         for(int i=0;i<arr.size();i++){
             cout<<arr[i]<<" "; 
@@ -88,19 +136,18 @@ public:
 };
 int main(){
     Solution mySolution;
-    vector<int> arr = mySolution.takeInputArray();
-    ListNode* head = new ListNode(arr[0],nullptr);
-    ListNode* mover = head;
-    for(int i=1;i<arr.size();i++){
-        ListNode* temp = new ListNode(arr[i]);
-        mover->next = temp;
-        mover = mover->next;
-    }
-    if(mySolution.isPalindrome(head)){
-        cout<<"This is a palindrome";
-    }
-    else{
-        cout<<"This is not a palindrome";
-    }
-    return 0;
+    vector<int> nextCost = {100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    vector<int> previousCost = {1,100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    string s = "abab";
+    // cin>>s;
+    string t = "baba";
+    
+    
+    cout<<mySolution.shiftDistance(s,t,nextCost,previousCost)<<endl;
+    
+    
+        
+        
+    
+    
 }

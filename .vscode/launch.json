@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/arjav/CP",
-      "program": "/home/arjav/CP/build/Debug/outDebug",
+      "cwd": "/home/arjav/CP/LeetCode",
+      "program": "/home/arjav/CP/LeetCode/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
