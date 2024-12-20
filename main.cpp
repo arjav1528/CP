@@ -173,42 +173,35 @@ public :
 int main(){
     Solution mySolution;
     Inputs myInput;
-    vector<int> arr = {1,2,3,4,5};
+    vector<int> arr = {1,2};
     ListNode* head = myInput.convertArrayToLL(arr);
-    if(head == nullptr || head->next == nullptr || head->next->next == nullptr){
-        myInput.printLinkedList(head);
-    }    
     ListNode* ref = head;
-    // myInput.printLinkedList(ref);
-    ListNode* temp = new ListNode(ref->val);
-    ListNode* ref1 = temp;
-    ref = ref->next->next;
-    int count = 1;
+    ListNode* h = ref;
+    int n = 2;
+    int count = 0;
     while(ref != nullptr){
-        if(count%2){
-            ListNode* n = new ListNode(ref->val);
-            temp->next = n;
-            temp = n;
-
-        }
         count++;
         ref = ref->next;
     }
-    count = 1;
-    ref = head->next;
-    temp->next = ref->next;
+    cout<<count<<endl;
+
+    ref = head;
+
+    int temp = 0;
     while(ref != nullptr){
-        if(count%2){
-            ListNode* n = new ListNode(ref->val);
-            temp->next = n;
-            temp = n;
-
+        if((temp+1+n)==count){
+            ref->next = ref->next->next;
+            temp++;
         }
-        count++;
         ref = ref->next;
+        temp++;
+    }
+    myInput.printLinkedList(h);
+    
+    
 
-    }   
-    myInput.printLinkedList(ref1);
+
+    
     
     
         

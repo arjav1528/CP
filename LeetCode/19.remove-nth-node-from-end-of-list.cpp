@@ -70,8 +70,32 @@ public:
         if(head->next == nullptr){
             return nullptr;
         }
+        
         else{
-            
+            ListNode* ref = head;
+            ListNode* h = ref;
+            int count = 0;
+            while(ref != nullptr){
+                count++;
+                ref = ref->next;
+            }
+            if(n==count){
+                return head->next;
+            }
+
+            ref = head;
+
+            int temp = 0;
+
+            while(ref != nullptr){
+                if((temp+1+n)==count){
+                    ref->next = ref->next->next;
+                    temp++;
+                }
+                ref = ref->next;
+                temp++;
+            }
+            return h;
         }
         
     }
