@@ -15,7 +15,8 @@
     "optional": "cpp",
     "regex": "cpp",
     "span": "cpp",
-    "type_traits": "cpp"
+    "type_traits": "cpp",
+    "functional": "cpp"
   },
   "C_Cpp.errorSquiggles": "enabled",
   "C_Cpp_Runner.msvcBatchPath": "",

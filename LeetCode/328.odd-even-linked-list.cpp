@@ -64,23 +64,47 @@
 class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
-        if(head->next == nullptr || head->next->next == nullptr){
+        if(head == nullptr){
             return head;
         }
-        ListNode* ref = head;
-        ListNode* odd = new ListNode(ref->val);
-        ListNode* even = new ListNode(ref->next->val);
-        ListNode* oddOrigin = odd;
-        ListNode* evenOrigin = even;
-        while(ref->next->next != nullptr && ref->next != nullptr){
-            ListNode* oddn = new ListNode(ref->val);
-            ListNode* evenn = new ListNode(ref->next->val);
-            odd->next = oddn;
-            even->next = evenn;
-            ref = ref->next->next;
+        else if(head->next == nullptr || head->next->next == nullptr){
+            return head;
         }
-        odd->next = evenOrigin;
-        return oddOrigin;
+        
+        else{
+            ListNode* ref = head;
+        // myInput.printLinkedList(ref);
+            ListNode* temp = new ListNode(ref->val);
+            ListNode* ref1 = temp;
+            ref = ref->next->next;
+            int count = 1;
+            while(ref != nullptr){
+                if(count%2){
+                    ListNode* n = new ListNode(ref->val);
+                    temp->next = n;
+                    temp = n;
+
+                }
+                count++;
+                ref = ref->next;
+            }
+            count = 1;
+            ref = head->next;
+            temp->next = ref->next;
+            while(ref != nullptr){
+                if(count%2){
+                    ListNode* n = new ListNode(ref->val);
+                    temp->next = n;
+                    temp = n;
+
+                }
+                count++;
+                ref = ref->next;
+
+            }
+            return ref1;
+        }
+        
     }
 };
 // @lc code=end
