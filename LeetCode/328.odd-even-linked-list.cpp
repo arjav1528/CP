@@ -64,9 +64,23 @@
 class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
-        ListNode* temp = head;
-        
-        
+        if(head->next == nullptr || head->next->next == nullptr){
+            return head;
+        }
+        ListNode* ref = head;
+        ListNode* odd = new ListNode(ref->val);
+        ListNode* even = new ListNode(ref->next->val);
+        ListNode* oddOrigin = odd;
+        ListNode* evenOrigin = even;
+        while(ref->next->next != nullptr && ref->next != nullptr){
+            ListNode* oddn = new ListNode(ref->val);
+            ListNode* evenn = new ListNode(ref->next->val);
+            odd->next = oddn;
+            even->next = evenn;
+            ref = ref->next->next;
+        }
+        odd->next = evenOrigin;
+        return oddOrigin;
     }
 };
 // @lc code=end

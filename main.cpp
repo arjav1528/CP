@@ -15,8 +15,50 @@ class ListNode{
         next = nullptr;
     }
 };
+class Inputs{
+public :
+    void printArray(vector<int> &arr){
+        for(int i=0;i<arr.size();i++){
+            cout<<arr[i]<<" "; 
+        }
+        cout<<endl;
+    }
+public : 
+    vector<int> takeInputArray(){
+        int len;
+        cin>>len;
+        vector<int> vec(len);
+        for(int i=0;i<len;i++){
+            cin>>vec[i];
+        }
+        return vec;
+
+    }
+public :
+    ListNode* convertArrayToLL(vector<int> &arr){
+        ListNode* head = new ListNode(arr[0]);
+        ListNode* ref = head;
+        for(int i=1;i<arr.size();i++){
+            ListNode* temp = new ListNode(arr[i]);
+            head->next = temp;
+            head = temp;
+        }
+        return ref;
+    }
+public : 
+    void printLinkedList(ListNode* head){
+        ListNode* temp = head;
+        while(temp != nullptr){
+            cout<<temp->val<<" ";
+            temp = temp->next;
+        }
+        cout<<endl;
+    }
+    
+};
 class Solution {
 public :
+    
     bool canAliceWin(int n){
         int x = 10;
         bool aliceWin = 0;
@@ -64,33 +106,6 @@ public:
         return totalCost;
         
     }
-public :
-    void printArray(vector<int> &arr){
-        for(int i=0;i<arr.size();i++){
-            cout<<arr[i]<<" "; 
-        }
-        cout<<endl;
-    }
-public : 
-    vector<int> takeInputArray(){
-        int len;
-        cin>>len;
-        vector<int> vec(len);
-        for(int i=0;i<len;i++){
-            cin>>vec[i];
-        }
-        return vec;
-
-    }
-public : 
-    void printLinkedList(ListNode* head){
-        ListNode* temp = head;
-        while(temp != nullptr){
-            cout<<temp->val<<" ";
-            temp = temp->next;
-        }
-        cout<<endl;
-    }
 public : 
     ListNode* secondHalf(ListNode* head){
         ListNode* fast = head;
@@ -133,17 +148,19 @@ public:
         }
         return true;    
     }
+    
 };
 int main(){
     Solution mySolution;
-    vector<int> nextCost = {100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-    vector<int> previousCost = {1,100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-    string s = "abab";
-    // cin>>s;
-    string t = "baba";
+    Inputs myInput;
+    vector<int> arr = {1,2,3,4,5};
+    ListNode* head = myInput.convertArrayToLL(arr);
+    myInput.printLinkedList(head);
     
     
-    cout<<mySolution.shiftDistance(s,t,nextCost,previousCost)<<endl;
+    
+    
+   
     
     
         
