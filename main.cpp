@@ -173,30 +173,33 @@ public :
 int main(){
     Solution mySolution;
     Inputs myInput;
-    vector<int> arr = {1,2};
+    vector<int> arr = {4,5,6};
     ListNode* head = myInput.convertArrayToLL(arr);
-    ListNode* ref = head;
-    ListNode* h = ref;
-    int n = 2;
-    int count = 0;
-    while(ref != nullptr){
-        count++;
-        ref = ref->next;
-    }
-    cout<<count<<endl;
-
-    ref = head;
-
-    int temp = 0;
-    while(ref != nullptr){
-        if((temp+1+n)==count){
-            ref->next = ref->next->next;
-            temp++;
+    ListNode* temp = mySolution.reverseList(head);
+        temp->val += 1;
+        ListNode* h = temp;
+        while(h != nullptr){
+            if(h->val >= 10){
+                h->val %= 10;
+                if(h->next == nullptr){
+                    ListNode* t = new ListNode(1);
+                    h->next = t;
+                }
+                else{
+                    h->next->val += 1;
+                }
+            }
+            h = h->next;
         }
-        ref = ref->next;
-        temp++;
-    }
-    myInput.printLinkedList(h);
+        
+
+
+    
+    
+    
+    
+
+    
     
     
 
