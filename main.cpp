@@ -171,21 +171,17 @@ public :
     
 };
 int main(){
-    map<int,int> mpp;
-    int target = 9;
-    vector<int> nums = {7,15,2,11};
-    for(int i=0;i<nums.size();i++){
-        mpp[nums[i]] = i;
+    Solution mySolution;
+    Inputs myInput;
+    int rotate = 2;
+    vector<int> arr = {1,2,3,4,5};
+    ListNode* head = myInput.convertArrayToLL(arr);
+    int count = 0;
+    while(head != nullptr){
+        cout<<++count<<head->val<<endl;
+        head = head->next;
+
     }
-    for(int i=0;i<nums.size();i++){
-        if(mpp.find(target-nums[i]) != mpp.end()){
-            if(mpp[target-nums[i]] != mpp[nums[i]]){
-                cout<<mpp[nums[i]]<<" "<<mpp[target-nums[i]];
-                return 0;
-            }
-        }
-    }
-    cout<<0;
     
 
   
