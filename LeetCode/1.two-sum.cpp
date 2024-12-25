@@ -63,7 +63,18 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        
+        unordered_map<int, int> numMap;
+        // int n = nums.size();
+
+        for (int i = 0; i < nums.size(); i++) {
+            // int complement = target - nums[i];
+            if (numMap.count(target - nums[i])) {
+                return {numMap[target - nums[i]], i};
+            }
+            numMap[nums[i]] = i;
+        }
+
+        return {}; // No solution found
     }
 };
 // @lc code=end

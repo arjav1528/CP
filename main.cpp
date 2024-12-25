@@ -171,44 +171,22 @@ public :
     
 };
 int main(){
-    Solution mySolution;
-    Inputs myInput;
-    vector<int> arr = {5};
-    vector<int> arr2 = {5};
-    ListNode* l1 = myInput.convertArrayToLL(arr);
-    ListNode* l2 = myInput.convertArrayToLL(arr2);
-    ListNode* temp1 = (l1);
-    ListNode* temp2 = (l2);
-    ListNode* final = temp1;
-    int carry = 0;
-    while(temp1 != nullptr && temp2 != nullptr){
-        temp1->val += (temp2->val) + carry;
-        carry = (temp1->val)/10;
-        temp1->val %= 10;
-        if(temp1->next == nullptr && temp2->next == nullptr && carry!=0){
-            ListNode* h = new ListNode(carry%10);
-            carry = carry/10;
-            temp1->next = h;
-        }
-        temp1 = temp1->next;
-        temp2 = temp2->next;
+    map<int,int> mpp;
+    int target = 9;
+    vector<int> nums = {7,15,2,11};
+    for(int i=0;i<nums.size();i++){
+        mpp[nums[i]] = i;
     }
-    if(temp1!= nullptr){
-        while(temp1 != nullptr){
-            temp1->val += carry;
-            carry = (temp1->val)/10;
-            temp1->val %= 10;
-            
-            if((temp1->next == nullptr) && (carry != 0)){
-                ListNode* h = new ListNode((carry%10));
-                carry = carry/10;
-                temp1->next = h;
+    for(int i=0;i<nums.size();i++){
+        if(mpp.find(target-nums[i]) != mpp.end()){
+            if(mpp[target-nums[i]] != mpp[nums[i]]){
+                cout<<mpp[nums[i]]<<" "<<mpp[target-nums[i]];
+                return 0;
             }
-            temp1 = temp1->next;
         }
-        
     }
-    myInput.printLinkedList(final);
+    cout<<0;
+    
 
   
 }
