@@ -141,61 +141,35 @@
 
 // @lc code=start
 class Solution {
+private:
+    long helper(string &s, int i, bool negative, long result) {
+        // Base cases
+        if (i >= s.length()) return negative ? -result : result;
+        if (!isdigit(s[i])) return negative ? -result : result;
+        
+        result = result * 10 + (s[i] - '0');
+        
+        if (result > INT_MAX) {
+            return negative ? INT_MIN : INT_MAX;
+        }
+        
+        return helper(s, i + 1, negative, result);
+    }
+    
 public:
     int myAtoi(string s) {
-        int j=0;
-        while(j<s.size()){
-            if(s[j]==' '){
-                s.erase(s.begin());
-            }
-            else{
-                break;
-            }
-        }
-        long long int final = 0;
-        int count = 0;
-        if(s[0]=='-'){
-            if(s[1] == '+' || s[1]=='-'){
-                return 0;
-            }
-            else{
-                count++;
-                s.erase(s.begin());
-            }
-        }  
-        for(int i=0;i<s.size();i++){
-            if(s[i]=='+' && i==0){
-                continue;
-            }
-            
-            else if((48 <= s[i]) && (s[i] <= 57)){
-                final = (final*10) + (s[i]-48);
-                if(count){
-                    final = final*-1;
-                    if(final<INT_MIN){
-                        return INT_MIN;
-                    }
-                    final = final*-1;
-                }
-                else{
-                    if(final>INT_MAX){
-                        return INT_MAX;
-                    }
-                }
-
-            }
-            else{
-                break;
-            }
-        }
-        if(count){
-            return (final*(-1));
-        }
-        else{
-            return final;
-        }
-
+        int i = 0;
         
+        while (i < s.length() && s[i] == ' ') i++;
+        if (i >= s.length()) return 0;
+        
+        bool negative = false;
+        if (s[i] == '-' || s[i] == '+') {
+            negative = s[i] == '-';
+            i++;
+        }
+        
+        return helper(s, i, negative, 0);
     }
 };
 // @lc code=end

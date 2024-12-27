@@ -15,6 +15,23 @@ class ListNode{
         next = nullptr;
     }
 };
+class Node{
+    public:
+        int val;
+        Node* next;
+        Node* random;
+        
+        Node(int val){
+            val = val;
+            next = nullptr;
+            random = nullptr;
+        };
+        Node(int val,Node* random){
+            val = val;
+            random = random;
+
+        }
+};
 class Inputs{
 public :
     void printArray(vector<int> &arr){
@@ -46,8 +63,8 @@ public :
         return ref;
     }
 public : 
-    void printLinkedList(ListNode* head){
-        ListNode* temp = head;
+    void printLinkedList(Node* head){
+        Node* temp = head;
         while(temp != nullptr){
             cout<<temp->val<<" ";
             temp = temp->next;
@@ -168,21 +185,101 @@ public :
         odd->next = evenOrigin;
         return oddOrigin;
     }
-    
+    int stringToNum(string s,int curr,bool negative){
+        // cout<<negative<<"is the bool";
+        if(s == ""){
+            return curr;
+        }
+        else if(notInteger(s[0])){
+            return curr;
+        }
+        
+        
+        else{
+            if(negative){
+                cout<<"Negative"<<endl;
+                long long temp = curr*(-1);
+                if(temp<INT_MIN){
+                    cout<<temp<<"Limit";
+                    return INT_MIN;
+                }
+                else{
+                    curr = curr*10 + (long long)(s[0] - 48);
+                    cout<<curr<<endl<<"CURR value";
+                    // cout<<curr<<endl;
+                    s.erase(s.begin());
+                    // cout<<s<<endl;
+                    return stringToNum(s,curr,negative);
+                }
+            }
+            else{
+                cout<<"POSITIVE ";
+                long long temp = curr;
+                cout<<temp<<endl;
+                // cout<<temp;
+                if(temp>INT_MAX){
+                    return INT_MAX;
+                }
+                else{
+                    // long long num = s[0] - 48;
+                    if(curr*10>=INT_MAX){
+                        cout<<"YAYY";
+                    }
+                    curr = curr*10 + (s[0] - 48);
+                    
+                    // cout<<curr<<endl;
+                    s.erase(s.begin());
+                    // cout<<s<<endl;
+                    return stringToNum(s,curr,negative);
+                }
+            }
+        }
+
+    }
+
+
+    bool notInteger(char s){
+        if(48<=s && s<=57){
+            return false;
+        }
+        else{
+            return true;
+        }
+
+    }
+    int myAtoi(string s) {
+        // bool negative = false;
+        s.erase(remove(s.begin(), s.end(), ' '), s.end()); 
+        if(notInteger(s[0]) && notInteger(s[1])){
+            // cout<<"Hello";
+            return 0;
+        }
+        else{
+            if(s[0] == '-'){
+                // negative = true;
+                s.erase(s.begin());
+                return stringToNum(s,0,true);
+            }
+            else if(s[0] == '+'){
+                s.erase(s.begin());
+                return stringToNum(s,0,false);
+            }
+            else{
+                return stringToNum(s,0,false);
+            }
+            
+        }
+    }
 };
+
+
+
 int main(){
     Solution mySolution;
     Inputs myInput;
-    int rotate = 2;
-    vector<int> arr = {1,2,3,4,5};
-    ListNode* head = myInput.convertArrayToLL(arr);
-    int count = 0;
-    while(head != nullptr){
-        cout<<++count<<head->val<<endl;
-        head = head->next;
-
-    }
-    
-
-  
+    string s = "21474836460";
+    long long temp = mySolution.myAtoi(s);
+    cout<<temp;
 }
+
+    
