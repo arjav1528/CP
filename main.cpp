@@ -185,91 +185,31 @@ public :
         odd->next = evenOrigin;
         return oddOrigin;
     }
-    int stringToNum(string s,int curr,bool negative){
-        // cout<<negative<<"is the bool";
-        if(s == ""){
-            return curr;
-        }
-        else if(notInteger(s[0])){
-            return curr;
-        }
-        
-        
-        else{
-            if(negative){
-                cout<<"Negative"<<endl;
-                long long temp = curr*(-1);
-                if(temp<INT_MIN){
-                    cout<<temp<<"Limit";
-                    return INT_MIN;
-                }
-                else{
-                    curr = curr*10 + (long long)(s[0] - 48);
-                    cout<<curr<<endl<<"CURR value";
-                    // cout<<curr<<endl;
-                    s.erase(s.begin());
-                    // cout<<s<<endl;
-                    return stringToNum(s,curr,negative);
-                }
+public :
+    double power(double x, int n){
+        if(n>0){
+            if(n==1){
+                return x;
             }
             else{
-                cout<<"POSITIVE ";
-                long long temp = curr;
-                cout<<temp<<endl;
-                // cout<<temp;
-                if(temp>INT_MAX){
-                    return INT_MAX;
-                }
-                else{
-                    // long long num = s[0] - 48;
-                    if(curr*10>=INT_MAX){
-                        cout<<"YAYY";
-                    }
-                    curr = curr*10 + (s[0] - 48);
-                    
-                    // cout<<curr<<endl;
-                    s.erase(s.begin());
-                    // cout<<s<<endl;
-                    return stringToNum(s,curr,negative);
-                }
+                
+                return (x * power(x,n-1));
             }
         }
-
-    }
-
-
-    bool notInteger(char s){
-        if(48<=s && s<=57){
-            return false;
+        else if(n==0){
+            return 1;
         }
         else{
-            return true;
-        }
-
-    }
-    int myAtoi(string s) {
-        // bool negative = false;
-        s.erase(remove(s.begin(), s.end(), ' '), s.end()); 
-        if(notInteger(s[0]) && notInteger(s[1])){
-            // cout<<"Hello";
-            return 0;
-        }
-        else{
-            if(s[0] == '-'){
-                // negative = true;
-                s.erase(s.begin());
-                return stringToNum(s,0,true);
-            }
-            else if(s[0] == '+'){
-                s.erase(s.begin());
-                return stringToNum(s,0,false);
+            if(n==-1){
+                return 1/x;
             }
             else{
-                return stringToNum(s,0,false);
+                
+                return (1/x)*power(x,n+1);
             }
-            
         }
     }
+
 };
 
 
@@ -277,8 +217,9 @@ public :
 int main(){
     Solution mySolution;
     Inputs myInput;
-    string s = "21474836460";
-    long long temp = mySolution.myAtoi(s);
+    double x = 2;
+    int n = -2;
+    double temp = mySolution.power(x,n);
     cout<<temp;
 }
 
