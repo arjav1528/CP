@@ -212,15 +212,33 @@ public :
 
 };
 
+bool isPrime(int x){
+    int temp = 2;
+    while(temp<=(x/2)){
+        if((x%temp)==0){
+            return false;
+            
+        }
+        temp++;
+    }
+    return true;
+}
+// bool
+
+
 
 
 int main(){
     Solution mySolution;
     Inputs myInput;
-    double x = 2;
-    int n = -2;
-    double temp = mySolution.power(x,n);
+    long long n = 5;
+    cout
+    long long temp = pow(10,9) + 7;
     cout<<temp;
+    pow(2,4,)
+    
+
+
 }
 
     
