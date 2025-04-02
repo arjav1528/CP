@@ -34,7 +34,7 @@ class Node{
 };
 class Inputs{
 public :
-    void printArray(vector<int> &arr){
+    static void printArray(vector<int> &arr){
         for(int i=0;i<arr.size();i++){
             cout<<arr[i]<<" "; 
         }
@@ -225,17 +225,39 @@ bool isPrime(int x){
 }
 // bool
 
+int maxProfit(vector<int>& prices) {
+
+    if(prices.size() < 2){
+        return 0;
+    }
+
+    int buy = 0;
+    int buy_min = INT_MAX:
+    int sell = prices.size()-1;
+    int sell_max = INT_MIN:
+
+    while(buy < sell){
+        
+
+    }
+    
+}
+
 
 
 
 int main(){
-    Solution mySolution;
-    Inputs myInput;
-    long long n = 5;
-    cout
-    long long temp = pow(10,9) + 7;
-    cout<<temp;
-    pow(2,4,)
+    // Solution mySolution;
+    // Inputs myInput;
+    // long long n = 5;
+    // cout
+    // long long temp = pow(10,9) + 7;
+    // cout<<temp;
+    // pow(2,4,)
+
+    vector<int> prices = {2,1,2,0,1};
+
+    cout<<maxProfit(prices);
     
 
 
