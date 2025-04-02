@@ -59,20 +59,26 @@
 class Solution {
 public:
     string largestOddNumber(string num) {
-        string s;
-        for(int i=num.size()-1;i>=0;i--){
-            char t = num[i];
+        // string s;
+        // for(int i=num.size()-1;i>=0;i--){
+        //     char t = num[i];
 
-                // string s = "";
-            if(t == 49 || t == 51 || t == 53 || t == 55 || t == 57){
-                s = num.substr(0,i+1);
-                return s;
-                // return s;
+        //         // string s = "";
+        //     if(t == 49 || t == 51 || t == 53 || t == 55 || t == 57){
+        //         s = num.substr(0,i+1);
+        //         return s;
+        //         // return s;
 
-            }
+        //     }
                 
+        // }
+        // return s;
+        for(int i=num.size();i>=0;i--){
+            if((num[i] - '0') & 1){
+                return num.substr(0, i + 1);
+            }
         }
-        return s;
+        return "";
         
     }
 };
