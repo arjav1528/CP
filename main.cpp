@@ -75,6 +75,35 @@ public :
 };
 class Solution {
 public :
+
+
+    static int longestPalindrome() {
+        string s = "aaaa";
+        string t = "b";
+        map<char,int> mpp;
+        for(int i=0;i<s.size();i++){
+            mpp[s[i]]++;
+        }
+        for(int i=0;i<t.size();i++){
+            mpp[t[i]]++;
+        }
+        int len = 0;
+        int odd = 0;
+
+        for(auto it : mpp){
+            if((it.second)%2==0){
+                len+=it.second;
+            }else{
+                if(it.second > odd){
+                    odd = it.second;
+                }
+            }
+        }
+
+        len = len+odd;
+
+        return len;
+    }
     
     bool canAliceWin(int n){
         int x = 10;
@@ -232,9 +261,9 @@ int maxProfit(vector<int>& prices) {
     }
 
     int buy = 0;
-    int buy_min = INT_MAX:
+    int buy_min = INT_MAX;
     int sell = prices.size()-1;
-    int sell_max = INT_MIN:
+    int sell_max = INT_MIN;
 
     while(buy < sell){
         
@@ -255,9 +284,31 @@ int main(){
     // cout<<temp;
     // pow(2,4,)
 
-    vector<int> prices = {2,1,2,0,1};
+    string s = "aaaa";
+        string t = "b";
+        map<char,int> mpp;
+        for(int i=0;i<s.size();i++){
+            mpp[s[i]]++;
+        }
+        for(int i=0;i<t.size();i++){
+            mpp[t[i]]++;
+        }
+        int len = 0;
+        int odd = 0;
 
-    cout<<maxProfit(prices);
+        for(auto it : mpp){
+            if((it.second)%2==0){
+                len+=it.second;
+            }else{
+                if(it.second > odd){
+                    odd = it.second;
+                }
+            }
+        }
+
+        len = len+odd;
+
+        cout<<len;
     
 
 
