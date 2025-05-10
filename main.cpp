@@ -120,6 +120,60 @@ public :
         }
         return aliceWin;
     }
+    // int lengthOfLongestSubstring(string s) {
+    //     int left = 0;
+    //     int right = 0;
+    //     unordered_map<char,int> hashMap;
+    //     int maxLen = 0;
+
+    //     while(right < 6){
+    //         if(hashMap.find(s.at(right)) == hashMap.end()){
+    //             maxLen = max(maxLen,(right-left));
+    //             left++;
+    //             hashMap.erase(s.at(left));
+    //         }
+
+    //         hashMap[s.at(right)]++;
+    //         right++;
+
+
+    //     }
+
+    //     return maxLen;
+
+
+
+        
+    // }
+        int lengthOfLongestSubstring(string s) {
+        if (s.empty()) return 0;
+        
+        int left = 0;
+        int right = 0;
+        unordered_map<char, int> charMap;
+        int maxLen = 0;
+
+        while(right < s.length()) {
+            char currentChar = s[right];
+            
+            // If character is already in current window, move left pointer
+            if (charMap.find(currentChar) != charMap.end() && charMap[currentChar] >= left) {
+                left = charMap[currentChar] + 1;
+            }
+            
+            // Update max length
+            maxLen = max(maxLen, right - left + 1);
+            
+            // Update character position
+            charMap[currentChar] = right;
+            
+            // Move right pointer
+            right++;
+        }
+
+        return maxLen;
+    }
+
 public:
     long long shiftDistance(string s, string t, vector<int>& nextCost, vector<int>& previousCost) {
         int i = 0;
@@ -276,7 +330,7 @@ int maxProfit(vector<int>& prices) {
 
 
 int main(){
-    // Solution mySolution;
+    Solution mySolution;
     // Inputs myInput;
     // long long n = 5;
     // cout
@@ -284,31 +338,11 @@ int main(){
     // cout<<temp;
     // pow(2,4,)
 
-    string s = "aaaa";
-        string t = "b";
-        map<char,int> mpp;
-        for(int i=0;i<s.size();i++){
-            mpp[s[i]]++;
-        }
-        for(int i=0;i<t.size();i++){
-            mpp[t[i]]++;
-        }
-        int len = 0;
-        int odd = 0;
+    string s = "abcadef";
 
-        for(auto it : mpp){
-            if((it.second)%2==0){
-                len+=it.second;
-            }else{
-                if(it.second > odd){
-                    odd = it.second;
-                }
-            }
-        }
+    cout<<mySolution.lengthOfLongestSubstring(s);
 
-        len = len+odd;
-
-        cout<<len;
+    
     
 
 
