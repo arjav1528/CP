@@ -203,6 +203,37 @@ public :
 
         return maxLen;
     }
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        int left = 0;
+        int right = 0;
+        int sum = 0;
+        int count = 0;
+
+        while(right < nums.size() && left <= right){
+            sum += nums[right];
+
+            if(sum > goal){
+                sum -= nums[right]; 
+                sum -= nums[left];
+                left++;
+            }else{
+                if(sum == goal){
+                    count++;
+                    if(nums[left] == 0){
+                        left++;
+                    }else{
+                        right++;
+                    }
+                    continue;
+                }else{
+                    right++;
+                }
+                
+            }
+        }
+
+        return count;
+    }
 
 public:
     long long shiftDistance(string s, string t, vector<int>& nextCost, vector<int>& previousCost) {
@@ -368,9 +399,9 @@ int main(){
     // cout<<temp;
     // pow(2,4,)
 
-    vector<int> nums = {0,0,1,1,1,0,0};
-    int k = 0;
-    cout<<mySolution.longestOnes(nums,k);
+    vector<int> nums = {1,0,1,0,1};
+    int k = 2;
+    cout<<mySolution.numSubarraysWithSum(nums,k);
     // cout<<nums.size();
 
     
