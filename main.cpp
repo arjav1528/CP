@@ -120,26 +120,56 @@ public :
         }
         return aliceWin;
     }
-    // int lengthOfLongestSubstring(string s) {
-    //     int left = 0;
-    //     int right = 0;
-    //     unordered_map<char,int> hashMap;
-    //     int maxLen = 0;
+    int longestOnes(vector<int>& nums, int k) {
+        if(k == 0){
+            int maxLen = 0;
+            int count = 0;
 
-    //     while(right < 6){
-    //         if(hashMap.find(s.at(right)) == hashMap.end()){
-    //             maxLen = max(maxLen,(right-left));
-    //             left++;
-    //             hashMap.erase(s.at(left));
-    //         }
+            for(int i=0;i<nums.size();i++){
+                if(nums[i] == 0){
+                    maxLen = max(maxLen,count);
+                    count = 0;
+                }else{
+                    count++;
+                }
+            }
+            // maxLen = max(maxLen,count);
 
-    //         hashMap[s.at(right)]++;
-    //         right++;
+            return maxLen;
 
+        }else{
+            int n = k;
+            int left = 0;
+            int right = 0;
+            int maxLen = 0;
+            
 
-    //     }
+            while(right < nums.size() && left<=right){
+                
+                if(nums[right] == 0){
+                    if(n>0){
+                        maxLen = max(maxLen,right-left+1);
+                        n--;
+                        right++;
+                        continue;
+                    }else{
+                        if(nums[left] == 0 ){
+                            n++;
+                        }
+                        left++;
+                        maxLen = max(maxLen,right-left+1);
+                        continue;
+                    }
 
-    //     return maxLen;
+                }else{
+                    maxLen = max(maxLen,right-left+1);
+                    right++;
+                }
+            }
+            return maxLen;
+        }
+        
+    }
 
 
 
@@ -338,9 +368,10 @@ int main(){
     // cout<<temp;
     // pow(2,4,)
 
-    string s = "abcadef";
-
-    cout<<mySolution.lengthOfLongestSubstring(s);
+    vector<int> nums = {0,0,1,1,1,0,0};
+    int k = 0;
+    cout<<mySolution.longestOnes(nums,k);
+    // cout<<nums.size();
 
     
     
