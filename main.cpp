@@ -235,6 +235,28 @@ public :
         return count;
     }
 
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int left = 0;
+        int right = 0;
+        int sum = 0;
+        int count = 0;
+        
+
+         while(right <= nums.size()){
+            sum += (nums[right] % 2);
+            while(sum > k){
+                sum -= (nums[left] % 2);
+                left++;
+            }    
+            
+            count += (right - left + 1);
+            right++;
+
+         }
+
+         return count;        
+    }
+
 public:
     long long shiftDistance(string s, string t, vector<int>& nextCost, vector<int>& previousCost) {
         int i = 0;
@@ -399,9 +421,9 @@ int main(){
     // cout<<temp;
     // pow(2,4,)
 
-    vector<int> nums = {1,0,1,0,1};
-    int k = 2;
-    cout<<mySolution.numSubarraysWithSum(nums,k);
+    vector<int> nums = {1,1,2,1,1};
+    int k = 3;
+    cout<<mySolution.numberOfSubarrays(nums,k);
     // cout<<nums.size();
 
     
