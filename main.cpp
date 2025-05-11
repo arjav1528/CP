@@ -257,6 +257,47 @@ public :
          return count;        
     }
 
+
+    int numberOfSubstrings(string s) {
+
+        int left = 0;
+        int right = 0;
+        int count = 0;
+        int a = 0;
+        int b = 0;
+        int c = 0;
+        int loop = 0;
+        while(right < s.length()){
+            loop++;
+            if(s[right] == 'a'){
+                a++;
+            }
+            else if(s[right] == 'b'){
+                b++;
+            }
+            else if(s[right] == 'c'){
+                c++;
+            }
+            if(a && b && c){
+                count++;
+            }
+
+            if(right < s.length()-1){
+                right++;
+            }else{
+                left++;
+                right = left;
+                a=0;
+                b=0;
+                c=0;
+            }
+        }
+        cout<<loop<<endl;
+        return count;
+
+        
+    }
+
 public:
     long long shiftDistance(string s, string t, vector<int>& nextCost, vector<int>& previousCost) {
         int i = 0;
@@ -423,7 +464,7 @@ int main(){
 
     vector<int> nums = {1,1,2,1,1};
     int k = 3;
-    cout<<mySolution.numberOfSubarrays(nums,k);
+    cout<<mySolution.numberOfSubstrings("abcabcabcabc");
     // cout<<nums.size();
 
     
