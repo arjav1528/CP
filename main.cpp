@@ -34,7 +34,7 @@ class Node{
 };
 class Inputs{
 public :
-    static void printArray(vector<int> &arr){
+    static void Array(vector<int> &arr){
         for(int i=0;i<arr.size();i++){
             cout<<arr[i]<<" "; 
         }
@@ -298,6 +298,35 @@ public :
         
     }
 
+
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        
+        int left = 0;
+        int right = 0;
+        int count = 0;
+        unordered_map<int,int> mpp;
+
+        while(right < nums.size()){
+            mpp[nums[right]]++;
+
+            while(mpp.size() > k){
+                mpp[nums[left]]--;
+                if(mpp[nums[left]] == 0){
+                    mpp.erase(nums[left]);
+                }
+                left++;
+            }
+
+            count += right - left + 1;
+            right++;
+
+        }
+
+        return count;
+        
+        
+    }
+
 public:
     long long shiftDistance(string s, string t, vector<int>& nextCost, vector<int>& previousCost) {
         int i = 0;
@@ -432,23 +461,8 @@ bool isPrime(int x){
 }
 // bool
 
-int maxProfit(vector<int>& prices) {
 
-    if(prices.size() < 2){
-        return 0;
-    }
 
-    int buy = 0;
-    int buy_min = INT_MAX;
-    int sell = prices.size()-1;
-    int sell_max = INT_MIN;
-
-    while(buy < sell){
-        
-
-    }
-    
-}
 
 
 
@@ -462,9 +476,9 @@ int main(){
     // cout<<temp;
     // pow(2,4,)
 
-    vector<int> nums = {1,1,2,1,1};
+    vector<int> nums = {1,2,1,2,3};
     int k = 3;
-    cout<<mySolution.numberOfSubstrings("abcabcabcabc");
+    cout<<mySolution.subarraysWithKDistinct(nums,2) - mySolution.subarraysWithKDistinct(nums,1);
     // cout<<nums.size();
 
     
