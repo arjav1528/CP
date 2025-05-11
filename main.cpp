@@ -298,6 +298,8 @@ public :
         
     }
 
+    
+
 
     int subarraysWithKDistinct(vector<int>& nums, int k) {
         
@@ -325,6 +327,78 @@ public :
         return count;
         
         
+    }
+
+    bool mapDiff(unordered_map<char,int>& ref, unordered_map<char,int>& key){
+        for(auto it : key){
+            if(ref.find(it.first) == ref.end()){
+                return false;
+            }else{
+                if(ref[it.first] < it.second){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    string minWindow(string s, string t) {
+
+        if(s.length() > t.length()){
+        }else if(s.length() == t.length()){
+            s = s;
+            t = t;
+            unordered_map<char,int> hasht;
+            unordered_map<char,int> hashs;
+            
+            for(int i=0;i<t.length();i++){
+                hasht[t[i]]++;
+            }
+            for(int i=0;i<s.length();i++){
+                hashs[s[i]]++;
+            }
+
+            if(mapDiff(hashs,hasht)){
+                return t;
+            }else{
+                return "";
+            }
+            
+        }else{
+            return "";
+        }
+
+        unordered_map<char,int> hasht;
+        unordered_map<char,int> hashs;
+        
+        for(int i=0;i<t.length();i++){
+            hasht[t[i]]++;
+        }
+        string minString = "";
+
+        int left = 0;
+        int right = 0;
+
+        while(right < s.size()){
+            hashs[s[right]]++;
+            while(mapDiff(hashs,hasht)){
+                if(minString == ""){
+                    minString = s.substr(left,(right-left+1));
+                }else{
+                    if(right - left + 1 < minString.length()){
+                        minString = s.substr(left,(right-left+1));
+                    }
+                }
+                hashs[s[left]]--;
+                if(hashs[s[left]] == 0){
+                    hashs.erase(s[left]);
+                }
+                left++;
+            }
+            right++;
+        }
+        return minString;  
     }
 
 public:
@@ -478,7 +552,7 @@ int main(){
 
     vector<int> nums = {1,2,1,2,3};
     int k = 3;
-    cout<<mySolution.subarraysWithKDistinct(nums,2) - mySolution.subarraysWithKDistinct(nums,1);
+    cout<<mySolution.minWindow("ADOBECODEBANC","ABC");
     // cout<<nums.size();
 
     
