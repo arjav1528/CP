@@ -32,27 +32,41 @@ class Node{
 
         }
 };
-int findContentChildren(vector<int>& g, vector<int>& s) {
+bool lemonadeChange(vector<int>& bills) {
 
-    sort(g.begin(),g.end());
-    sort(s.begin(),s.end());
-    int r = 0;
-    int l = 0;
+    int five = 0;
+    int ten = 0;
+    int twenty = 0;
 
-    while(l<s.size()){
-        if(g[r] <= s[l]){
-            r++;
+    for(int i=0;i<bills.size();i++){
+        if(bills[i] == 5){
+            five++;
+        }else if(bills[i] == 10){
+            ten++;
+            if(five >= 1){
+                five--;
+            }else{
+                return false;
+            }
+        }else if(bills[i] == 20){
+            twenty++;
+            if(ten>=1){
+                if(five>=1){
+                    ten--;
+                    five--;
+                }else{
+                    return false;
+                }
+            }else{
+                if(five>=3){
+                    five-=3;
+                }else{
+                    return false;
+                }
+            }
         }
-        l++;
     }
-
-    return r;
-
-
-
-    
-
-        
+    return true;
         
 }
 
