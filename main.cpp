@@ -66,6 +66,23 @@ bool checkValidString(string s) {
         
 }
 
+bool canJump(vector<int>& nums) {
+    int max = 0;
+
+    for(int i=0;i<nums.size();i++){
+        if(i>max){
+            return false;
+        }
+        max = nums[i]+i;
+        if(max>=nums.size()){
+            return true;
+        }
+        
+    }
+    return true;
+        
+}
+
 
 
 
@@ -73,9 +90,9 @@ bool checkValidString(string s) {
 
 
 int main(){
+    vector<int> nums = {2,3,1,1,4};
 
-    cout<<(checkValidString("(((((*(()((((*((**(((()()*)()()()*((((**)())*)*)))))))(())(()))())((*()()(((()((()*(())*(()**)()(())"))<<endl;
-    
+    cout<<canJump(nums);
 
 
 
