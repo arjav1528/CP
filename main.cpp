@@ -32,115 +32,42 @@ class Node{
 
         }
 };
-bool checkValidString(string s) {
 
-    int cmin = 0;
-    int cmax = 0;
-    
-    for(int i=0;i<s.length();i++){
-        if(s[i] == '('){
-            cmax++;
-            cmin++;
-        }else if(s[i] == ')'){
-            cmax--;
-            cmin--;
-        }else{
-            cmin--;
-            cmax++;
-        }
-
-        if(cmin<0){
-            cmin=0;
-        }
-        if(cmax < 0){
-            return false;
-        }
-    }
-
-    if(cmin <= 0 && 0 <= cmax){
-        return true;
+bool customSort(vector<int> a, vector<int> b){
+    if(a[1] == b[1]){
+        return a[2]<b[2];
     }else{
-        return false;
+        return a[1]<b[1];
     }
-    
-        
 }
+vector<int> JobScheduling(vector<vector<int>>& Jobs) {
 
-bool canJump(vector<int>& nums) {
-    int max = 0;
+    sort(Jobs.begin(),Jobs.end(),customSort);
 
-    for(int i=0;i<nums.size();i++){
-        if(i>max){
-            return false;
+    for(int i=0;i<Jobs.size();i++){
+        for(int j=0;j<3;j++){
+            cout<<Jobs[i][j]<<" ";
         }
-        max = nums[i]+i;
-        if(max>=nums.size()){
-            return true;
-        }
-        
+        cout<<endl;
     }
-    return true;
-        
-}
+    map<int,int> mpp;
 
-int jump(vector<int>& nums) {
-        
+    for(int i=0;i<Jobs.size();i++){
+        mpp[Jobs[i][1]] = Jobs[i][2];
+    }
+    int sum = 0;
 
-    int count = 0;
-
-        int l = 0;
-        int r = 0;
-        int jumps = 0;
-
-        while(r<nums.size()-1){
-            int farthest = 0;
-
-            for(int i=l;i<=r;i++){
-                farthest = max(farthest,i+nums[i]);
-            }
-
-            l = r+1;
-            r = farthest;
-            jumps++;
-        }        
-
-    return jumps;
-        
-}
-
-bool customSort(pair<int,int> a, pair<int,int>b){
-    return a.first < b.first;
-}
-
-int findPlatform(vector<int>& Arrival, vector<int>& Departure){
-
-    vector<pair<int,char>> arr;
-
-    for(int i=0;i<Arrival.size();i++){
-        arr.emplace_back(Arrival[i],'A');
-        arr.emplace_back(Departure[i],'D');
+    for(auto it : mpp){
+        sum += it.second;
     }
 
-    sort(arr.begin(),arr.end(),customSort);
-   
-    int len = 0;
-    int maxLen = 0;
+    int size = mpp.size();
 
-    for(int i=0;i<arr.size();i++){
-        if(arr[i].second == 'A'){
-            len++;
-        }else{
-            maxLen = max(maxLen,len);
-            len = 0;
-        }
-    }
+    return {size,sum};
 
-    return maxLen;
-
-
-
-
+        
 }
+
 
 
 
@@ -150,10 +77,14 @@ int findPlatform(vector<int>& Arrival, vector<int>& Departure){
 
 int main(){
     
-    vector<int> arrival = {900, 940, 950, 1100, 1500, 1800};
-    vector<int> departure = {910, 1200, 1120, 1130, 1900, 2000};
+    // vector<vector<int>> jobs =  { {1, 4, 20} , {2, 1, 10} , {3, 1, 40} , {4, 1, 30} };
+    vector<vector<int>> jobs = { {1, 2, 100} , {2, 1, 19} , {3, 2, 27} , {4, 1, 25} , {5, 1, 15} };
 
-    cout<<findPlatform(arrival,departure);
+    vector<int> ans = JobScheduling(jobs);
+
+    cout<<ans[0]<<" "<<ans[1];
+
+
 
 
 
