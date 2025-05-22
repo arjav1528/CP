@@ -33,37 +33,32 @@ class Node{
         }
 };
 
-bool customSort(vector<int> a, vector<int> b){
-    if(a[1] == b[1]){
-        return a[2]<b[2];
-    }else{
-        return a[1]<b[1];
-    }
-}
-vector<int> JobScheduling(vector<vector<int>>& Jobs) {
+vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+    
+    vector<vector<int>> finalAns;
 
-    sort(Jobs.begin(),Jobs.end(),customSort);
+    int i=0;
 
-    for(int i=0;i<Jobs.size();i++){
-        for(int j=0;j<3;j++){
-            cout<<Jobs[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    map<int,int> mpp;
-
-    for(int i=0;i<Jobs.size();i++){
-        mpp[Jobs[i][1]] = Jobs[i][2];
-    }
-    int sum = 0;
-
-    for(auto it : mpp){
-        sum += it.second;
+    while(i<intervals.size() && intervals[i][1] < newInterval[0]){
+        finalAns.push_back(intervals[i]);
+        i++;
     }
 
-    int size = mpp.size();
+    while(i<intervals.size() && intervals[i][0] <= newInterval[1]){
+        newInterval[0] = min(newInterval[0],intervals[i][0]);
+        newInterval[1] = max(newInterval[1],intervals[i][1]);
+        i++
+    }
 
-    return {size,sum};
+    while(i<intervals.size()){
+        finalAns.push_back(intervals[i]);
+        i++;
+    }
+
+    return finalAns;
+
+
+    
 
         
 }
@@ -75,14 +70,21 @@ vector<int> JobScheduling(vector<vector<int>>& Jobs) {
 
 
 
+
+
 int main(){
     
-    // vector<vector<int>> jobs =  { {1, 4, 20} , {2, 1, 10} , {3, 1, 40} , {4, 1, 30} };
-    vector<vector<int>> jobs = { {1, 2, 100} , {2, 1, 19} , {3, 2, 27} , {4, 1, 25} , {5, 1, 15} };
+    // vector<int> ratings = {1,3,2,2,1};
 
-    vector<int> ans = JobScheduling(jobs);
+    vector<vector<int>> vec = {{1,2},{3,5},{6,7},{8,10},{12,16}};
+    // vector<vector<int>> vec = {{1,3},{6,9}};
+    vector<int> newInterval = {4,8};
 
-    cout<<ans[0]<<" "<<ans[1];
+    vector<vector<int>> ans = insert(vec,newInterval);
+
+    
+
+    // cout<<ans[0]<<" "<<ans[1];
 
 
 
