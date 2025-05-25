@@ -33,34 +33,41 @@ class Node{
         }
 };
 
-vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
-    
-    vector<vector<int>> finalAns;
+int eraseOverlapIntervals(vector<vector<int>>& intervals) {
 
-    int i=0;
+    int count = 0;
 
-    while(i<intervals.size() && intervals[i][1] < newInterval[0]){
-        finalAns.push_back(intervals[i]);
-        i++;
+    for(int i=0;i<(intervals.size()-1);i++){
+        if(intervals[i][1] >= intervals[i+1][0]){
+            count++;
+        }
     }
 
-    while(i<intervals.size() && intervals[i][0] <= newInterval[1]){
-        newInterval[0] = min(newInterval[0],intervals[i][0]);
-        newInterval[1] = max(newInterval[1],intervals[i][1]);
-        i++
-    }
-
-    while(i<intervals.size()){
-        finalAns.push_back(intervals[i]);
-        i++;
-    }
-
-    return finalAns;
-
-
-    
-
+    cout<<count;
         
+}
+
+
+vector<int> numCars(vector<pair<int,int>> cars, int N){
+    vector<int> time(N,0);
+    for(int i=0;i<cars.size();i++){
+
+        time[cars[i].first]++;
+
+        if(cars[i].second < N){
+            time[cars[i].second]--;
+        }
+    }
+
+    // for(int i=0;i<time.size();i++){
+    //     cout<<time[i];
+    // }
+
+    for(int i=1;i<time.size();i++){
+        time[i] += time[i-1];
+    }
+
+    return time;
 }
 
 
@@ -76,11 +83,17 @@ int main(){
     
     // vector<int> ratings = {1,3,2,2,1};
 
-    vector<vector<int>> vec = {{1,2},{3,5},{6,7},{8,10},{12,16}};
-    // vector<vector<int>> vec = {{1,3},{6,9}};
-    vector<int> newInterval = {4,8};
+    vector<pair<int,int>> vec = {{1,3},{2,4}};
 
-    vector<vector<int>> ans = insert(vec,newInterval);
+
+    vector<int> ans = numCars(vec,5);
+
+    for(int i=0;i<ans.size();i++){
+        cout<<ans[i];
+    }
+
+    
+    
 
     
 
