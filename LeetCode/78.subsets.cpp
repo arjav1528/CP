@@ -48,28 +48,28 @@
 // @lc code=start
 class Solution {
 public:
-    void recurse(vector<int> nums,int index, vector<int> &ls, vector<vector<int>> &finalList){
-        finalList.push_back(ls);
-
-        for(int i=index;i<nums.size();i++){
-            ls.push_back(nums[i]);
-            recurse(nums,i+1,ls,finalList);
-            ls.pop_back();
-
-        }
-
-    }
 
     vector<vector<int>> subsets(vector<int>& nums) {
 
-        vector<vector<int>> finalList;
-        vector<int> ls = {};
+    vector<vector<int>> finalList;
+    vector<int> ls;
 
-        recurse(nums,0,ls,finalList);
+    for(int i=0;i<pow(2,nums.size());i++){
 
-        return finalList;
-            
+        ls = {};
+        for(int j=0;j<nums.size();j++){
+            if(i & (1<<j)){
+                ls.push_back(nums[j]);
+            }
+        }
+
+        finalList.push_back(ls);
+
     }
+
+    return finalList;
+        
+}
 };
 // @lc code=end
 

@@ -107,9 +107,20 @@ void recurse(vector<int> nums,int index, vector<int> &ls, vector<vector<int>> &f
 vector<vector<int>> subsets(vector<int>& nums) {
 
     vector<vector<int>> finalList;
-    vector<int> ls = {};
+    vector<int> ls;
 
-    recurse(nums,0,ls,finalList);
+    for(int i=0;i<pow(2,nums.size());i++){
+
+        ls = {};
+        for(int j=0;j<nums.size();j++){
+            if(i & (1<<j)){
+                ls.push_back(nums[j]);
+            }
+        }
+
+        finalList.push_back(ls);
+
+    }
 
     return finalList;
         
