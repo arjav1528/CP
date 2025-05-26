@@ -33,44 +33,6 @@ class Node{
         }
 };
 
-int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-
-    int count = 0;
-
-    for(int i=0;i<(intervals.size()-1);i++){
-        if(intervals[i][1] >= intervals[i+1][0]){
-            count++;
-        }
-    }
-
-    cout<<count;
-        
-}
-
-
-vector<int> numCars(vector<pair<int,int>> cars, int N){
-    vector<int> time(N,0);
-    for(int i=0;i<cars.size();i++){
-
-        time[cars[i].first]++;
-
-        if(cars[i].second < N){
-            time[cars[i].second]--;
-        }
-    }
-
-    // for(int i=0;i<time.size();i++){
-    //     cout<<time[i];
-    // }
-
-    for(int i=1;i<time.size();i++){
-        time[i] += time[i-1];
-    }
-
-    return time;
-}
-
-
 vector<int> bfsOfGraph(int V, vector<int> adj[]){
     
     int vis[V] = {0};
@@ -130,47 +92,45 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
+void recurse(vector<int> nums,int index, vector<int> &ls, vector<vector<int>> &finalList){
+    finalList.push_back(ls);
+
+    for(int i=index;i<nums.size();i++){
+        ls.push_back(nums[i]);
+        recurse(nums,i+1,ls,finalList);
+        ls.pop_back();
+
+    }
+
+}
+
+vector<vector<int>> subsets(vector<int>& nums) {
+
+    vector<vector<int>> finalList;
+    vector<int> ls = {};
+
+    recurse(nums,0,ls,finalList);
+
+    return finalList;
+        
+}
 
 
 
 
 
 int main(){
-    
-    // vector<int> ratings = {1,3,2,2,1};
 
-    // vector<pair<int,int>> vec = {{1,3},{2,4}};
-    vector<int> adj[] = {{2, 3, 1}, {0}, {0, 4}, {0}, {2}};
+    vector<int> q = {1,2,3};
 
-
-    vector<int> ans = dfsOfGraph(5,adj);
+    vector<vector<int>> ans = subsets(q);
 
     for(int i=0;i<ans.size();i++){
-        cout<<ans[i];
+        for(int j=0;j<ans[i].size();j++){
+            cout<<ans[i][j]<<",";
+        }
+
+        cout<<endl;
     }
-
-
-    return 0;
-
-    
-    
-
-    
-
-    // cout<<ans[0]<<" "<<ans[1];
-
-
-
-
-
-
-
-    
-    // cout<<nums.size();
-
-    
-    
-
-
 }
 
