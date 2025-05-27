@@ -96,9 +96,13 @@ void recurse(vector<int> nums,int index, vector<int> &ls, vector<vector<int>> &f
     finalList.push_back(ls);
 
     for(int i=index;i<nums.size();i++){
-        ls.push_back(nums[i]);
-        recurse(nums,i+1,ls,finalList);
-        ls.pop_back();
+        if(i!=index && nums[i] == nums[i-1]){
+            continue;
+        }else{
+            ls.push_back(nums[i]);
+            recurse(nums,i+1,ls,finalList);
+            ls.pop_back();
+        }
 
     }
 
@@ -109,83 +113,12 @@ vector<vector<int>> subsets(vector<int>& nums) {
     vector<vector<int>> finalList;
     vector<int> ls;
 
-    for(int i=0;i<pow(2,nums.size());i++){
-
-        ls = {};
-        for(int j=0;j<nums.size();j++){
-            if(i & (1<<j)){
-                ls.push_back(nums[j]);
-            }
-        }
-
-        finalList.push_back(ls);
-
-    }
+    recurse(nums,0,ls,finalList);
 
     return finalList;
         
 }
 
-void generateSumDuplicatesAllowed(int index, vector<vector<int>> &finalAns, vector<int> ds, vector<int> arr, int target){
-    if(index == arr.size()){
-        if(target == 0){
-            // sort(ds.begin(),ds.end());
-            finalAns.push_back(ds);
-        }
-        return;
-    }
-
-    if(arr[index] <= target){
-        ds.push_back(arr[index]);
-        generateSumDuplicatesAllowed(index,finalAns,ds,arr,target-arr[index]);
-        ds.pop_back();
-    }
-
-    generateSumDuplicatesAllowed(index+1,finalAns,ds,arr,target);
-}
-
-
-void generateSumDuplicatesNotAllowed(int index,vector<vector<int>> &finalAns, vector<int> ds, vector<int> arr, int sum, int target){
-    if(index == arr.size()){
-        if(sum == target){
-            sort(ds.begin(),ds.end());
-
-            for(int i=0;i<finalAns.size();i++){
-                if(finalAns[i] == ds){
-                    return;
-                }
-            }
-            finalAns.push_back(ds);
-        }
-        return;
-    }
-
-    ds.push_back(arr[index]);
-    sum+= arr[index];
-
-    generateSumDuplicatesNotAllowed(index+1,finalAns,ds,arr,sum,target);
-
-    sum -= arr[index];
-    ds.pop_back();
-
-    generateSumDuplicatesNotAllowed(index+1,finalAns,ds,arr,sum,target);
-}
-
-vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-
-    vector<vector<int>> finalAns;
-
-    vector<int> ds;
-
-    generateSumDuplicatesNotAllowed(0,finalAns,ds,candidates,0,target);
-
-    
-
-
-    return finalAns;
-    
-        
-}
 
 
 
@@ -197,10 +130,10 @@ vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
 
 int main(){
 
-    vector<int> q = {10,1,2,7,6,1,5};
+    vector<int> q = {1,2,2};
     int target = 8;
 
-    vector<vector<int>> ans = combinationSum(q,target);
+    vector<vector<int>> ans = subsets(q);
 
     for(int i=0;i<ans.size();i++){
         for(int j=0;j<ans[i].size();j++){
