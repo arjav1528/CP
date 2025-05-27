@@ -126,23 +126,22 @@ vector<vector<int>> subsets(vector<int>& nums) {
         
 }
 
-void generateSum(int index, vector<vector<int>> &finalAns, vector<int> ds, vector<int> arr, int target, int sum){
+void generateSum(int index, vector<vector<int>> &finalAns, vector<int> ds, vector<int> arr, int target){
     if(index == arr.size()){
-        if(sum == target){
+        if(target == 0){
             finalAns.push_back(ds);
         }
         return;
     }
 
-    ds.push_back(arr[index]);
-    sum += arr[index];
+    if(arr[index] <= target){
+        ds.push_back(arr[index]);
+        generateSum(index,finalAns,ds,arr,target-arr[index]);
+        ds.pop_back();
+    }
 
-    generateSum(index+1,finalAns,ds,arr,target,sum);
+    generateSum(index+1,finalAns,ds,arr,target);
 
-    sum -= arr[index];
-    ds.pop_back();
-
-    generateSum(index+1,finalAns,ds,arr,target,sum);
 
 
 
@@ -157,7 +156,7 @@ vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
 
     vector<int> ds;
 
-    generateSum(0,finalAns,ds,candidates,target,0);
+    generateSum(0,finalAns,ds,candidates,target);
 
 
     return finalAns;
