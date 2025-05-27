@@ -126,9 +126,10 @@ vector<vector<int>> subsets(vector<int>& nums) {
         
 }
 
-void generateSum(int index, vector<vector<int>> &finalAns, vector<int> ds, vector<int> arr, int target){
+void generateSumDuplicatesAllowed(int index, vector<vector<int>> &finalAns, vector<int> ds, vector<int> arr, int target){
     if(index == arr.size()){
         if(target == 0){
+            // sort(ds.begin(),ds.end());
             finalAns.push_back(ds);
         }
         return;
@@ -136,19 +137,39 @@ void generateSum(int index, vector<vector<int>> &finalAns, vector<int> ds, vecto
 
     if(arr[index] <= target){
         ds.push_back(arr[index]);
-        generateSum(index,finalAns,ds,arr,target-arr[index]);
+        generateSumDuplicatesAllowed(index,finalAns,ds,arr,target-arr[index]);
         ds.pop_back();
     }
 
-    generateSum(index+1,finalAns,ds,arr,target);
-
-
-
-
-
-
+    generateSumDuplicatesAllowed(index+1,finalAns,ds,arr,target);
 }
 
+
+void generateSumDuplicatesNotAllowed(int index,vector<vector<int>> &finalAns, vector<int> ds, vector<int> arr, int sum, int target){
+    if(index == arr.size()){
+        if(sum == target){
+            sort(ds.begin(),ds.end());
+
+            for(int i=0;i<finalAns.size();i++){
+                if(finalAns[i] == ds){
+                    return;
+                }
+            }
+            finalAns.push_back(ds);
+        }
+        return;
+    }
+
+    ds.push_back(arr[index]);
+    sum+= arr[index];
+
+    generateSumDuplicatesNotAllowed(index+1,finalAns,ds,arr,sum,target);
+
+    sum -= arr[index];
+    ds.pop_back();
+
+    generateSumDuplicatesNotAllowed(index+1,finalAns,ds,arr,sum,target);
+}
 
 vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
 
@@ -156,7 +177,9 @@ vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
 
     vector<int> ds;
 
-    generateSum(0,finalAns,ds,candidates,target);
+    generateSumDuplicatesNotAllowed(0,finalAns,ds,candidates,0,target);
+
+    
 
 
     return finalAns;
@@ -170,10 +193,12 @@ vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
 
 
 
+
+
 int main(){
 
-    vector<int> q = {2,3,6,7};
-    int target = 7;
+    vector<int> q = {10,1,2,7,6,1,5};
+    int target = 8;
 
     vector<vector<int>> ans = combinationSum(q,target);
 
