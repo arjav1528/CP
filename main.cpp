@@ -121,6 +121,23 @@ vector<vector<int>> subsets(vector<int>& nums) {
 
 
 
+void dp(int n){
+    int prev = 1;
+    int prev2 = 0;
+    int num = -1;
+
+    for(int i=2;i<=n;i++){
+        num = prev + prev2;
+        prev2 = prev;
+        prev = num;
+    }
+
+    cout<<num;
+    cout<<prev;
+}
+
+
+
 
 
 
@@ -133,14 +150,15 @@ int main(){
     vector<int> q = {1,2,2};
     int target = 8;
 
-    vector<vector<int>> ans = subsets(q);
+    // vector<vector<int>> ans = subsets(q);
 
-    for(int i=0;i<ans.size();i++){
-        for(int j=0;j<ans[i].size();j++){
-            cout<<ans[i][j]<<",";
-        }
+    // for(int i=0;i<ans.size();i++){
+    //     for(int j=0;j<ans[i].size();j++){
+    //         cout<<ans[i][j]<<",";
+    //     }
 
-        cout<<endl;
-    }
+    //     cout<<endl;
+    // }
+    dp(6);
 }
 
