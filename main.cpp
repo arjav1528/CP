@@ -120,42 +120,31 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 // }
 
 
-void recurse(int target, int index, vector<vector<int>> &finalAns, vector<int> ds,vector<int> arr){
-    if(index == arr.size()){
-        if(target == 0){
-            finalAns.push_back(ds);
-        }
-
+void recurse(int index, vector<int>& minEnergy,vector<int> heights, int energy){
+    if(index == heights.size()-1){
+        minEnergy.push_back(energy);
         return;
     }
 
-    if(arr[index] <= target){
+    recurse(index+1,minEnergy,heights,energy + heights[index+1] - heights[index]);
 
-        ds.push_back(arr[index]);
+    recurse(index+2,minEnergy,heights,energy + heights[index+2] - heights[index]);
+    
 
-        recurse(target-arr[index],index,finalAns,ds,arr);
 
-        ds.pop_back();
-    }
-
-    recurse(target,index+1,finalAns,ds,arr);
 
 }
 
 
-vector<vector<int>> climbStairs(int n) {
+int frogJump(vector<int>& heights) {
 
-    vector<vector<int>> finalAns;
-    vector<int> arr = {1,2};
-    vector<int> ds = {};
-
-    recurse(n,0,finalAns,ds,arr);
-
-    return finalAns;
+    vector<int> minEnergy;
+    recurse(0,minEnergy,heights,0);
 
     
-        
-        
+    
+
+
 }
 
 
