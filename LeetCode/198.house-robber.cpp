@@ -57,21 +57,27 @@
 class Solution {
 public:
 
-    int recurse(int index, vector<int> nums){
-
-        if(index == 0){
-            return nums[0];
-        }
-        if(index < 0){
-            return 0;
-        }
-
-        return max((nums[index] + recurse(index-2,nums)),(recurse(index-1,nums))); 
-
-    }
+    
     int rob(vector<int>& nums) {
         
-        return recurse(nums.size()-1,nums);
+        vector<int> dp(nums.size(),0);
+
+        dp[0] = nums[0];
+        int pick = -1;
+        int notpick = -1;
+
+        for(int i=1;i<nums.size();i++){
+          pick = nums[i];
+          if(i>1){
+            pick+=dp[i-2];
+          }
+          notpick = dp[i-1];
+
+          dp[i] = max(pick,notpick);
+        }
+
+
+        return dp[nums.size()-1];
         
     }
 };
