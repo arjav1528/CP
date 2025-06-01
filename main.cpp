@@ -174,7 +174,9 @@ int main(){
     //     cout<<endl;
     // }
     vector<int> nums = {1,2,3,1};
-    cout<<rob(nums);
+    // cout<<rob(nums);
+    int num = nums.pop_back();
+    
 
 }
 
