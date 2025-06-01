@@ -120,31 +120,26 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 // }
 
 
-void recurse(int index, vector<int>& minEnergy,vector<int> heights, int energy){
-    if(index == heights.size()-1){
-        minEnergy.push_back(energy);
-        return;
+int recurse(int index, vector<int> nums){
+
+    if(index == 0){
+        return nums[0];
+    }
+    if(index < 0){
+        return 0;
     }
 
-    recurse(index+1,minEnergy,heights,energy + heights[index+1] - heights[index]);
-
-    recurse(index+2,minEnergy,heights,energy + heights[index+2] - heights[index]);
-    
-
-
+    return max((nums[index] + recurse(index-2,nums)),(recurse(index-1,nums))); 
 
 }
 
 
-int frogJump(vector<int>& heights) {
+int rob(vector<int>& nums) {
 
-    vector<int> minEnergy;
-    recurse(0,minEnergy,heights,0);
-
-    
-    
+    return recurse(nums.size()-1,nums);
 
 
+        
 }
 
 
@@ -153,8 +148,6 @@ void dp(int n){
     int prev = 1;
     int prev2 = 0;
     int num = -1;
-
-    
 }
 
 
@@ -180,13 +173,8 @@ int main(){
 
     //     cout<<endl;
     // }
-    vector<vector<int>> ans = climbStairs(3);
+    vector<int> nums = {1,2,3,1};
+    cout<<rob(nums);
 
-    for(int i=0;i<ans.size();i++){
-        for(int j=0;j<ans[i].size();j++){
-            cout<<ans[i][j]<<" ";
-        }
-        cout<<endl;
-    }
 }
 
