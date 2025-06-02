@@ -92,78 +92,30 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
+int recurse(int m,int n){
 
-int rob(vector<int>& nums) {
-    int prev = nums[0];
-    int prev2 = 0;
-    
-    int cur = -1;
-    
-    for(int i=1;i<nums.size();i++){
-        
-        cur = max(prev,prev2+nums[i]);
-        prev2 = prev;
-        prev = cur;
+    int top = 0;
+    int left = 0;
+    if(m==0 && n==0){
+        return 1;
     }
+
+    if(m>0){
+        top = recurse(m-1,n);
+    }
+    if(n>0){
+        left = recurse(m,n-1);
+    }
+    return top+left;
+
+
     
-    return prev;
     
+
 }
-int recurse(int index, int last, vector<vector<int>>& points) {
-    if (index == 0) {
-        int maxi = INT_MIN;
-        for (int i = 0; i < 3; i++) {
-            if (i != last) {
-                maxi = max(maxi, points[0][i]);
-            }
-        }
-        return maxi;
-    }
-    
-    int maxi = INT_MIN;
-    for (int i = 0; i < 3; i++) {
-        if (i != last) {
-            maxi = max(maxi, points[index][i] + recurse(index - 1, i, points));
-        }
-    }
-    return maxi;
+int uniquePaths(int m, int n) {
+    return recurse(m-1,n-1);   
 }
-
-int ninjaTraining(vector<vector<int>> &points) {
-    // return recurse(points.size() - 1, 3, points);
-    vector<int> dp(4,0);
-    dp[0] = max(points[0][1],points[0][2]);
-    dp[1] = max(points[0][2],points[0][0]);
-    dp[2] = max(points[0][0],points[0][1]);
-    dp[3] = max(points[0][1],max(points[0][2],points[0][0]));
-
-    for(int day=1;day<points.size();day++){
-        vector<int> temp(4,0);
-
-        for(int last = 0;last<4;last++){
-
-            temp[last] = 0;
-
-            for(int i=0;i<3;i++){
-
-                if(i != last){
-                    temp[last] = max(temp[last],points[day][i] + dp[i]);
-                }
-
-            }
-        }
-        dp = temp;
-
-    }
-
-    return dp[3];
-
-
-    
-    
-    
-}
-
 
 
 
@@ -178,7 +130,7 @@ int main(){
     int target = 8;
     vector<vector<int>> que = {{1,2,5}, {3 ,1 ,1} ,{3,3,3}};
 
-    cout<<ninjaTraining(que);
+    cout<<uniquePaths(3,7);
     
 
 }
