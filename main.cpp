@@ -92,24 +92,11 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-int recurse(int index, vector<int> nums){
-
-    if(index == 0){
-        return nums[0];
-    }else if(index<0){
-        return 0;
-    }else{
-        return max(recurse(index-1,nums), (nums[index] + recurse(index-2,nums)));
-    }
-
-
-
-}
 
 int rob(vector<int>& nums) {
     int prev = nums[0];
     int prev2 = 0;
-
+    
     int cur = -1;
     
     for(int i=1;i<nums.size();i++){
@@ -118,9 +105,32 @@ int rob(vector<int>& nums) {
         prev2 = prev;
         prev = cur;
     }
-
+    
     return prev;
-        
+    
+}
+int recurse(int index, int last, vector<vector<int>>& points) {
+    if (index == 0) {
+        int maxi = INT_MIN;
+        for (int i = 0; i < 3; i++) {
+            if (i != last) {
+                maxi = max(maxi, points[0][i]);
+            }
+        }
+        return maxi;
+    }
+    
+    int maxi = INT_MIN;
+    for (int i = 0; i < 3; i++) {
+        if (i != last) {
+            maxi = max(maxi, points[index][i] + recurse(index - 1, i, points));
+        }
+    }
+    return maxi;
+}
+
+int ninjaTraining(vector<vector<int>> &points) {
+    return recurse(points.size() - 1, 3, points);
 }
 
 
@@ -135,8 +145,9 @@ int main(){
 
     vector<int> q = {2,7,9,3,1};
     int target = 8;
+    vector<vector<int>> que = {{1,2,5}, {3 ,1 ,1} ,{3,3,3}};
 
-    cout<<rob(q);
+    cout<<ninjaTraining(que);
     
 
 }
