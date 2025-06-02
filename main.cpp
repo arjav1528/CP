@@ -92,62 +92,50 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-// void recurse(vector<int> nums,int index, vector<int> &ls, vector<vector<int>> &finalList){
-//     finalList.push_back(ls);
+int recurse(int index, vector<int> heights){
 
-//     for(int i=index;i<nums.size();i++){
-//         if(i!=index && nums[i] == nums[i-1]){
-//             continue;
-//         }else{
-//             ls.push_back(nums[i]);
-//             recurse(nums,i+1,ls,finalList);
-//             ls.pop_back();
-//         }
+    if(index <= 0) return 0;
 
-//     }
+    int step1 = recurse(index-1,heights) + abs(heights[index] - heights[index-1]);
+    int step2 = INT_MAX;
 
-// }
-
-// vector<vector<int>> subsets(vector<int>& nums) {
-
-//     vector<vector<int>> finalList;
-//     vector<int> ls;
-
-//     recurse(nums,0,ls,finalList);
-
-//     return finalList;
-        
-// }
-
-
-int recurse(int index, vector<int> nums){
-
-    if(index == 0){
-        return nums[0];
+    if(index > 1){
+        step2 = recurse(index-2,heights) + abs(heights[index] - heights[index-2]); 
     }
-    if(index < 0){
-        return 0;
-    }
+    return min(step1,step2);
 
-    return max((nums[index] + recurse(index-2,nums)),(recurse(index-1,nums))); 
 
 }
 
+int frogJump(vector<int>& heights) {
 
-int rob(vector<int>& nums) {
-
-    return recurse(nums.size()-1,nums);
-
-
-        
-}
-
-
-
-void dp(int n){
-    int prev = 1;
+    int prev1 = 0;
     int prev2 = 0;
-    int num = -1;
+    int cur = 0;
+
+    int step1 = INT_MAX;
+    int step2 = INT_MAX;
+
+    for(int i = 1;i<heights.size();i++){
+
+        step1 = prev1 + abs(heights[i] - heights[i-1]);
+        if(i > 1){
+            step2 = prev2 + abs(heights[i] - heights[i-2]);
+        }else{
+            step2 = INT_MAX;
+        }
+
+        cur = min(step1,step2);
+
+        prev2 = prev1;
+        prev1 = cur;
+        
+        
+
+
+    }
+    return prev1;
+
 }
 
 
@@ -161,21 +149,10 @@ void dp(int n){
 
 int main(){
 
-    vector<int> q = {1,2,2};
+    vector<int> q = {7, 5, 1, 2, 6};
     int target = 8;
 
-    // vector<vector<int>> ans = subsets(q);
-
-    // for(int i=0;i<ans.size();i++){
-    //     for(int j=0;j<ans[i].size();j++){
-    //         cout<<ans[i][j]<<",";
-    //     }
-
-    //     cout<<endl;
-    // }
-    vector<int> nums = {1,2,3,1};
-    // cout<<rob(nums);
-    int num = nums.pop_back();
+    cout<<frogJump(q);
     
 
 }
