@@ -130,7 +130,38 @@ int recurse(int index, int last, vector<vector<int>>& points) {
 }
 
 int ninjaTraining(vector<vector<int>> &points) {
-    return recurse(points.size() - 1, 3, points);
+    // return recurse(points.size() - 1, 3, points);
+    vector<int> dp(4,0);
+    dp[0] = max(points[0][1],points[0][2]);
+    dp[1] = max(points[0][2],points[0][0]);
+    dp[2] = max(points[0][0],points[0][1]);
+    dp[3] = max(points[0][1],max(points[0][2],points[0][0]));
+
+    for(int day=1;day<points.size();day++){
+        vector<int> temp(4,0);
+
+        for(int last = 0;last<4;last++){
+
+            temp[last] = 0;
+
+            for(int i=0;i<3;i++){
+
+                if(i != last){
+                    temp[last] = max(temp[last],points[day][i] + dp[i]);
+                }
+
+            }
+        }
+        dp = temp;
+
+    }
+
+    return dp[3];
+
+
+    
+    
+    
 }
 
 
