@@ -92,69 +92,35 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-int recurse(int index, vector<int> heights){
+int recurse(int index, vector<int> nums){
 
-    if(index <= 0) return 0;
-
-    int step1 = recurse(index-1,heights) + abs(heights[index] - heights[index-1]);
-    int step2 = INT_MAX;
-
-    if(index > 1){
-        step2 = recurse(index-2,heights) + abs(heights[index] - heights[index-2]); 
+    if(index == 0){
+        return nums[0];
+    }else if(index<0){
+        return 0;
+    }else{
+        return max(recurse(index-1,nums), (nums[index] + recurse(index-2,nums)));
     }
-    return min(step1,step2);
+
 
 
 }
 
-int frogJump(vector<int>& heights) {
-
-    int prev1 = 0;
+int rob(vector<int>& nums) {
+    int prev = nums[0];
     int prev2 = 0;
-    int cur = 0;
 
-    int step1 = INT_MAX;
-    int step2 = INT_MAX;
-
-    for(int i = 1;i<heights.size();i++){
-
-        step1 = prev1 + abs(heights[i] - heights[i-1]);
-        if(i > 1){
-            step2 = prev2 + abs(heights[i] - heights[i-2]);
-        }else{
-            step2 = INT_MAX;
-        }
-
-        cur = min(step1,step2);
-
-        prev2 = prev1;
-        prev1 = cur;
-        
-        
-
-
-    }
-    return prev1;
-
-}
-
-int frogJump(vector<int>& heights, int k) {
-    int n = heights.size();
-    if (n == 1) return 0;
+    int cur = -1;
     
-    vector<int> dp(k, INT_MAX);
-    dp[0] = 0;     
-    for(int i = 1; i < n; i++) {
-        int currentCost = INT_MAX;
+    for(int i=1;i<nums.size();i++){
         
-        for(int j = 1; j <= k && j <= i; j++) {
-            int jumpCost = dp[(i-j) % k] + abs(heights[i] - heights[i-j]);
-            currentCost = min(currentCost, jumpCost);
-        }
-        dp[i % k] = currentCost;
+        cur = max(prev,prev2+nums[i]);
+        prev2 = prev;
+        prev = cur;
     }
-    
-    return dp[(n-1) % k];
+
+    return prev;
+        
 }
 
 
@@ -167,10 +133,10 @@ int frogJump(vector<int>& heights, int k) {
 
 int main(){
 
-    vector<int> q = {7, 5, 1, 2, 6};
+    vector<int> q = {2,7,9,3,1};
     int target = 8;
 
-    cout<<frogJump(q,2);
+    cout<<rob(q);
     
 
 }
