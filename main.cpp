@@ -138,6 +138,24 @@ int frogJump(vector<int>& heights) {
 
 }
 
+int frogJump(vector<int>& heights, int k) {
+    int n = heights.size();
+    if (n == 1) return 0;
+    
+    vector<int> dp(k, INT_MAX);
+    dp[0] = 0;     
+    for(int i = 1; i < n; i++) {
+        int currentCost = INT_MAX;
+        
+        for(int j = 1; j <= k && j <= i; j++) {
+            int jumpCost = dp[(i-j) % k] + abs(heights[i] - heights[i-j]);
+            currentCost = min(currentCost, jumpCost);
+        }
+        dp[i % k] = currentCost;
+    }
+    
+    return dp[(n-1) % k];
+}
 
 
 
@@ -152,7 +170,7 @@ int main(){
     vector<int> q = {7, 5, 1, 2, 6};
     int target = 8;
 
-    cout<<frogJump(q);
+    cout<<frogJump(q,2);
     
 
 }
