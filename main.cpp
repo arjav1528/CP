@@ -92,58 +92,27 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-int recurse(int m, int n, vector<vector<int>> obstacleGrid){
-    if (m < 0 || n < 0 || obstacleGrid[m][n] == 1) {
-        return 0;
-    }
+int recurse(int m, int n, vector<vector<int>> grid){
     if(m==0 && n==0){
-        return 1;
+        return grid[0][0];
+    }else if(m==0){
+        return grid[m][n] + recurse(m,n-1,grid);
+    }else if(n==0){
+        return grid[m][n] + recurse(m-1,n,grid);
+    }else{
+        
+        int up = recurse(m-1,n,grid);
+        int left = recurse(m,n-1,grid);
+
+        return grid[m][n] + min(up,left);
     }
-
     
-    int up = recurse(m-1,n,obstacleGrid);
-    int right = recurse(m,n-1,obstacleGrid);
-
-
-    return up+right;
-
 }
 
 
-int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+int minPathSum(vector<vector<int>>& grid) {
 
-    // return recurse(obstacleGrid.size()-1,obstacleGrid[0].size()-1,obstacleGrid);
-    int m = obstacleGrid.size();
-    int n = obstacleGrid[0].size();
-    int down;
-    int right;
-
-    vector<int> dp(n,0);
-
-    for(int i=0;i<m;i++){
-        vector<int> cur(n,0);
-        for(int j=0;j<n;j++){
-            if(obstacleGrid[i][j] == 1){
-                continue;
-            }else if(i==0 && j==0){
-                cur[j] = 1;
-            }else{
-                
-                down = i>0 ? dp[j] : 0;
-                right = j>0 ? cur[j-1] : 0;
-
-                cur[j] = down + right;
-
-            }
-        }
-        dp = cur;
-    }
-
-    return dp[n-1];
-
-
-
-    
+    return recurse(grid.size()-1,grid[0].size()-1,grid);
 
         
 }
@@ -159,9 +128,9 @@ int main(){
 
     vector<int> q = {2,7,9,3,1};
     int target = 8;
-    vector<vector<int>> que = {{0,1},{0,0}};
+    vector<vector<int>> que = {{1,2,3},{4,5,6}};
 
-    cout<<uniquePathsWithObstacles(que);
+    cout<<minPathSum(que);
     
 
 }
