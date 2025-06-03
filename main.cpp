@@ -110,14 +110,26 @@ int recurse(int i, int j, vector<vector<int>> matrix){
 
 int minFallingPathSum(vector<vector<int>>& matrix) {
     int n = matrix.size();
-    int minSum = INT_MAX;
-    
-    // Try starting from each column in the last row
-    for(int j = 0; j < n; j++) {
-        minSum = min(minSum, recurse(n-1, j, matrix));
+
+    vector<int> dp(n,0), cur(n,0);
+
+    dp = matrix[0];
+
+    for(int i=1;i<matrix.size();i++){
+        for(int j=0;j<matrix.size();j++){
+            int s = matrix[i][j] + dp[j];
+            int r = (j<=matrix.size()-2) ? matrix[i][j] + dp[j+1] : INT_MAX;
+            int l = (j>=1) ? matrix[i][j] + dp[j-1] : INT_MAX;
+
+            cur[j] = min(s,min(l,r));
+
+        }
+        dp = cur;
     }
-    
-    return minSum;
+
+    return *min_element(dp.begin(),dp.end());
+
+
 }
 
 
