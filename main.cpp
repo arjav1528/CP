@@ -112,7 +112,38 @@ int recurse(int m, int n, vector<vector<int>> obstacleGrid){
 
 int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
 
-    return recurse(obstacleGrid.size()-1,obstacleGrid[0].size()-1,obstacleGrid);
+    // return recurse(obstacleGrid.size()-1,obstacleGrid[0].size()-1,obstacleGrid);
+    int m = obstacleGrid.size();
+    int n = obstacleGrid[0].size();
+    int down;
+    int right;
+
+    vector<int> dp(n,0);
+
+    for(int i=0;i<m;i++){
+        vector<int> cur(n,0);
+        for(int j=0;j<n;j++){
+            if(obstacleGrid[i][j] == 1){
+                continue;
+            }else if(i==0 && j==0){
+                cur[j] = 1;
+            }else{
+                
+                down = i>0 ? dp[j] : 0;
+                right = j>0 ? cur[j-1] : 0;
+
+                cur[j] = down + right;
+
+            }
+        }
+        dp = cur;
+    }
+
+    return dp[n-1];
+
+
+
+    
 
         
 }
@@ -128,7 +159,7 @@ int main(){
 
     vector<int> q = {2,7,9,3,1};
     int target = 8;
-    vector<vector<int>> que = {{0,0,0},{0,1,0},{0,0,0}};
+    vector<vector<int>> que = {{0,1},{0,0}};
 
     cout<<uniquePathsWithObstacles(que);
     
