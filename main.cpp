@@ -92,48 +92,32 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-int recurse(int index,int j, vector<vector<int>> triangle){
+int recurse(int i, int j, vector<vector<int>> matrix){
+    
+    if(j<0 || j>=matrix.size()){
+        return INT_MAX;
+    }
 
-    if(triangle.size() == 1){
-        return triangle[0][0];
+    if(i == 0){
+        return matrix[i][j];
     }
-    if(index == 0){
-        return triangle[0][0];
-    }else{
-        int l = recurse(index-1,j-1,triangle);
-        int r = recurse(index-1,j,triangle);
-        return (triangle[index][j] + min(l,r));
-    }
-    
-    
-    
+
+    return matrix[i][j] + min(recurse(i-1,j-1,matrix),min(recurse(i-1,j,matrix),recurse(i-1,j+1,matrix)));
 }
 
 
 
 
-int minimumTotal(vector<vector<int>>& triangle) {
+int minFallingPathSum(vector<vector<int>>& matrix) {
+    int n = matrix.size();
+    int minSum = INT_MAX;
     
-    vector<int> dp = {triangle[0][0]};
-
-    for(int i=1;i<triangle.size();i++){
-        vector<int> temp(i+1,0);
-
-        for(int j=0;j<i+1;j++){
-            if(j == 0){
-                temp[j] = triangle[i][j] + dp[j];
-            }else if(j==i){
-                temp[j] = triangle[i][j] + dp[j-1];
-            }else{
-                temp[j] = triangle[i][j] + min(dp[j],dp[j-1]);
-            }
-        }
-
-        dp = temp;
+    // Try starting from each column in the last row
+    for(int j = 0; j < n; j++) {
+        minSum = min(minSum, recurse(n-1, j, matrix));
     }
-
-    return *min_element(dp.begin(),dp.end());
-        
+    
+    return minSum;
 }
 
 
@@ -147,9 +131,9 @@ int main(){
 
     vector<int> q = {2,7,9,3,1};
     int target = 8;
-    vector<vector<int>> que = {{2},{3,4},{6,5,7},{4,1,8,3}};
+    vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
     // vector<vector<int>> que = {{-10}};
-    cout<<minimumTotal(que);
+    cout<<minFallingPathSum(que);
     
 
 }
