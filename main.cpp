@@ -96,7 +96,7 @@ int recurse(int m,int n){
 
     int top = 0;
     int left = 0;
-    if(m==0 && n==0){
+    if(m==0 || n==0){
         return 1;
     }
 
@@ -114,7 +114,33 @@ int recurse(int m,int n){
 
 }
 int uniquePaths(int m, int n) {
-    return recurse(m-1,n-1);   
+    
+
+    vector<int> dp(n,0);
+    int up;
+    int left;
+
+    for(int i=0;i<m;i++){
+        vector<int> temp(n,0);
+
+        for(int j=0;j<n;j++){
+            if(i==0 && j==0){
+                temp[j] = 1;
+            }else{
+                up = i>0 ? dp[j] : 0;
+                left = j>0 ? temp[j-1] : 0;
+                temp[j] = up+left;
+            }
+            
+        }
+        dp = temp;
+    }
+    
+
+    
+    return dp[n-1];
+    
+
 }
 
 
