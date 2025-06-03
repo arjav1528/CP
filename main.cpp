@@ -112,7 +112,30 @@ int recurse(int m, int n, vector<vector<int>> grid){
 
 int minPathSum(vector<vector<int>>& grid) {
 
-    return recurse(grid.size()-1,grid[0].size()-1,grid);
+    // return recurse(grid.size()-1,grid[0].size()-1,grid);
+    int m = grid.size();
+    int n = grid[0].size();
+    vector<int> dp(n,0);
+
+    for(int i=0;i<m;i++){
+        vector<int> temp(n,0);
+        for(int j=0;j<n;j++){
+            if(i==0 && j==0){
+                temp[j] = grid[i][j];
+            }else{
+                int down = INT_MAX;
+                int right = INT_MAX;
+                if(i>0)down = dp[j];
+                if(j>0)right = temp[j-1];
+                temp[j] = grid[i][j] + min(down,right);
+            }
+        }
+        dp = temp;
+
+        
+
+    }
+    return dp[n-1];
 
         
 }
