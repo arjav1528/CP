@@ -97,11 +97,11 @@ int recurse(int index,int j, vector<vector<int>> triangle){
     if(triangle.size() == 1){
         return triangle[0][0];
     }
-    if(index == triangle.size()-1){
-        return min(triangle[index][j],triangle[index][j+1]);
+    if(index == 0){
+        return triangle[0][0];
     }else{
-        int l = recurse(index+1,j+1,triangle);
-        int r = recurse(index+1,j,triangle);
+        int l = recurse(index-1,j-1,triangle);
+        int r = recurse(index-1,j,triangle);
         return (triangle[index][j] + min(l,r));
     }
     
@@ -114,7 +114,25 @@ int recurse(int index,int j, vector<vector<int>> triangle){
 
 int minimumTotal(vector<vector<int>>& triangle) {
     
-    return recurse(0,0,triangle);
+    vector<int> dp = {triangle[0][0]};
+
+    for(int i=1;i<triangle.size();i++){
+        vector<int> temp(i+1,0);
+
+        for(int j=0;j<i+1;j++){
+            if(j == 0){
+                temp[j] = triangle[i][j] + dp[j];
+            }else if(j==i){
+                temp[j] = triangle[i][j] + dp[j-1];
+            }else{
+                temp[j] = triangle[i][j] + min(dp[j],dp[j-1]);
+            }
+        }
+
+        dp = temp;
+    }
+
+    return *min_element(dp.begin(),dp.end());
         
 }
 
