@@ -92,51 +92,29 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-int recurse(int m, int n, vector<vector<int>> grid){
-    if(m==0 && n==0){
-        return grid[0][0];
-    }else if(m==0){
-        return grid[m][n] + recurse(m,n-1,grid);
-    }else if(n==0){
-        return grid[m][n] + recurse(m-1,n,grid);
-    }else{
-        
-        int up = recurse(m-1,n,grid);
-        int left = recurse(m,n-1,grid);
+int recurse(int index,int j, vector<vector<int>> triangle){
 
-        return grid[m][n] + min(up,left);
+    if(triangle.size() == 1){
+        return triangle[0][0];
     }
+    if(index == triangle.size()-1){
+        return min(triangle[index][j],triangle[index][j+1]);
+    }else{
+        int l = recurse(index+1,j+1,triangle);
+        int r = recurse(index+1,j,triangle);
+        return (triangle[index][j] + min(l,r));
+    }
+    
+    
     
 }
 
 
-int minPathSum(vector<vector<int>>& grid) {
 
-    // return recurse(grid.size()-1,grid[0].size()-1,grid);
-    int m = grid.size();
-    int n = grid[0].size();
-    vector<int> dp(n,0);
 
-    for(int i=0;i<m;i++){
-        vector<int> temp(n,0);
-        for(int j=0;j<n;j++){
-            if(i==0 && j==0){
-                temp[j] = grid[i][j];
-            }else{
-                int down = INT_MAX;
-                int right = INT_MAX;
-                if(i>0)down = dp[j];
-                if(j>0)right = temp[j-1];
-                temp[j] = grid[i][j] + min(down,right);
-            }
-        }
-        dp = temp;
-
-        
-
-    }
-    return dp[n-1];
-
+int minimumTotal(vector<vector<int>>& triangle) {
+    
+    return recurse(0,0,triangle);
         
 }
 
@@ -151,9 +129,9 @@ int main(){
 
     vector<int> q = {2,7,9,3,1};
     int target = 8;
-    vector<vector<int>> que = {{1,2,3},{4,5,6}};
-
-    cout<<minPathSum(que);
+    vector<vector<int>> que = {{2},{3,4},{6,5,7},{4,1,8,3}};
+    // vector<vector<int>> que = {{-10}};
+    cout<<minimumTotal(que);
     
 
 }
