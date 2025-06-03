@@ -92,55 +92,29 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-int recurse(int m,int n){
-
-    int top = 0;
-    int left = 0;
-    if(m==0 || n==0){
+int recurse(int m, int n, vector<vector<int>> obstacleGrid){
+    if (m < 0 || n < 0 || obstacleGrid[m][n] == 1) {
+        return 0;
+    }
+    if(m==0 && n==0){
         return 1;
     }
 
-    if(m>0){
-        top = recurse(m-1,n);
-    }
-    if(n>0){
-        left = recurse(m,n-1);
-    }
-    return top+left;
+    
+    int up = recurse(m-1,n,obstacleGrid);
+    int right = recurse(m,n-1,obstacleGrid);
 
 
-    
-    
+    return up+right;
 
 }
-int uniquePaths(int m, int n) {
-    
 
-    vector<int> dp(n,0);
-    int up;
-    int left;
 
-    for(int i=0;i<m;i++){
-        vector<int> temp(n,0);
+int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
 
-        for(int j=0;j<n;j++){
-            if(i==0 && j==0){
-                temp[j] = 1;
-            }else{
-                up = i>0 ? dp[j] : 0;
-                left = j>0 ? temp[j-1] : 0;
-                temp[j] = up+left;
-            }
-            
-        }
-        dp = temp;
-    }
-    
+    return recurse(obstacleGrid.size()-1,obstacleGrid[0].size()-1,obstacleGrid);
 
-    
-    return dp[n-1];
-    
-
+        
 }
 
 
@@ -154,9 +128,9 @@ int main(){
 
     vector<int> q = {2,7,9,3,1};
     int target = 8;
-    vector<vector<int>> que = {{1,2,5}, {3 ,1 ,1} ,{3,3,3}};
+    vector<vector<int>> que = {{0,0,0},{0,1,0},{0,0,0}};
 
-    cout<<uniquePaths(3,7);
+    cout<<uniquePathsWithObstacles(que);
     
 
 }
