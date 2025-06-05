@@ -92,42 +92,29 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-int recurse(int i, int j, vector<vector<int>> matrix){
+bool recurse(int index, int target, vector<int> arr){
+
+    if(target == 0) return true;
+    if(index == 0) return (arr[0] == target);
+
+    bool notTake = recurse(index-1,target,arr);
+
+    bool take = false;
+
+    if(arr[index] <= target) take = recurse(index-1,target-arr[index],arr);
+
+    return take | notTake;
     
-    if(j<0 || j>=matrix.size()){
-        return INT_MAX;
-    }
-
-    if(i == 0){
-        return matrix[i][j];
-    }
-
-    return matrix[i][j] + min(recurse(i-1,j-1,matrix),min(recurse(i-1,j,matrix),recurse(i-1,j+1,matrix)));
+    
 }
 
 
 
+bool subsetSumtoX(int n, int k, vector<int> &arr){
 
-int minFallingPathSum(vector<vector<int>>& matrix) {
-    int n = matrix.size();
+    // return recurse(n-1,k,arr);
+    
 
-    vector<int> dp(n,0), cur(n,0);
-
-    dp = matrix[0];
-
-    for(int i=1;i<matrix.size();i++){
-        for(int j=0;j<matrix.size();j++){
-            int s = matrix[i][j] + dp[j];
-            int r = (j<=matrix.size()-2) ? matrix[i][j] + dp[j+1] : INT_MAX;
-            int l = (j>=1) ? matrix[i][j] + dp[j-1] : INT_MAX;
-
-            cur[j] = min(s,min(l,r));
-
-        }
-        dp = cur;
-    }
-
-    return *min_element(dp.begin(),dp.end());
 
 
 }
@@ -141,11 +128,11 @@ int minFallingPathSum(vector<vector<int>>& matrix) {
 
 int main(){
 
-    vector<int> q = {2,7,9,3,1};
+    vector<int> q = {4,3,2,1};
     int target = 8;
     vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
     // vector<vector<int>> que = {{-10}};
-    cout<<minFallingPathSum(que);
+    cout<<subsetSumtoX(4,11,q);
     
 
 }
