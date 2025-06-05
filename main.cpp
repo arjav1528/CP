@@ -134,9 +134,15 @@ bool subsetSumtoX(int n, int k, vector<int> &arr){
     }
 
     return dp[k];
+}
+bool canPartition(vector<int>& nums) {
 
-
-
+    int sum = 0;
+    for(int i=0;i<nums.size();i++){
+        sum+=nums[i];
+    }
+    return sum%2 ? false : subsetSumtoX(nums.size(),sum/2,nums);
+        
 }
 
 
@@ -148,11 +154,11 @@ bool subsetSumtoX(int n, int k, vector<int> &arr){
 
 int main(){
 
-    vector<int> q = {4,3,2,1};
+    vector<int> q = {100,4,6};
     int target = 8;
     vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
     // vector<vector<int>> que = {{-10}};
-    cout<<subsetSumtoX(4,11,q);
+    cout<<canPartition(q);
     
 
 }
