@@ -113,7 +113,27 @@ bool recurse(int index, int target, vector<int> arr){
 bool subsetSumtoX(int n, int k, vector<int> &arr){
 
     // return recurse(n-1,k,arr);
-    
+    vector<bool> dp(k+1,false), cur(k+1,false);
+    dp[arr[0]] = true;
+    dp[0] = true;
+    cur[0] = true;
+
+    for(int index = 1;index<n;index++){
+        for(int target = 1;target<=k;target++){
+
+            bool take = false;
+            bool notTake = dp[target];
+            if(arr[index] <= target) take = dp[target-arr[index]];
+
+            cur[target] = take | notTake;
+
+
+        }
+
+        dp = cur;
+    }
+
+    return dp[k];
 
 
 
