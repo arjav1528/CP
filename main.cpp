@@ -144,6 +144,42 @@ bool canPartition(vector<int>& nums) {
     return sum%2 ? false : subsetSumtoX(nums.size(),sum/2,nums);
         
 }
+int minimumDifference(vector<int>& arr) {
+    int k =0;
+    for(int i=0;i<arr.size();i++) k+=arr[i];
+    vector<bool> dp(k+1,false), cur(k+1,false);
+    dp[arr[0]] = true;
+    dp[0] = true;
+    cur[0] = true;
+
+    for(int index = 1;index<arr.size();index++){
+        for(int target = 1;target<=k;target++){
+
+            bool take = false;
+            bool notTake = dp[target];
+            if(arr[index] <= target) take = dp[target-arr[index]];
+
+            cur[target] = take | notTake;
+
+
+        }
+
+        dp = cur;
+    }
+
+
+
+    int mini = INT_MAX;
+
+    for(int s1 = 0;s1<=k;s1++){
+        if(dp[s1] == true){
+            mini = min(mini,abs(k-s1-s1));
+        }
+    }
+    return mini;
+        
+}
+
 
 
 
@@ -154,11 +190,11 @@ bool canPartition(vector<int>& nums) {
 
 int main(){
 
-    vector<int> q = {100,4,6};
+    vector<int> q = {3,9,7,3};
     int target = 8;
     vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
     // vector<vector<int>> que = {{-10}};
-    cout<<canPartition(q);
+    cout<<minimumDifference(q);
     
 
 }
