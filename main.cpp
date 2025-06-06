@@ -92,92 +92,60 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-bool recurse(int index, int target, vector<int> arr){
-
-    if(target == 0) return true;
-    if(index == 0) return (arr[0] == target);
-
-    bool notTake = recurse(index-1,target,arr);
-
-    bool take = false;
-
-    if(arr[index] <= target) take = recurse(index-1,target-arr[index],arr);
-
-    return take | notTake;
+int recurse(int index, int target, vector<int>& coins) {
+    if (target == 0) return 0;
     
+    if(index == 0){
+        if(target%coins[0]==0){
+            return target/coins[0];
+        }
+        return INT_MAX-1;
+    }
     
+    int notTake = recurse(index - 1, target, coins);
+    
+    int take = INT_MAX - 1;
+    if (coins[index] <= target) 
+        take = 1 + recurse(index, target - coins[index], coins);
+    
+    return min(take, notTake);  
 }
 
+int coinChange(vector<int>& coins, int amount) {
+    // int result = recurse(coins.size() - 1, amount, coins);
+    // return result == INT_MAX - 1 ? -1 : result;
+
+    vector<int> dp(amount+1,0),cur(amount+1,0);
+
+    if(amount == 0) return 0;
+
+    for(int T=0;T<=amount;T++){
+        if(T%coins[0] == 0){
+            dp[T] = T/coins[0];
+        }else{
+            dp[T] = INT_MAX-1;
+        }
+    }
 
 
-bool subsetSumtoX(int n, int k, vector<int> &arr){
+    for(int i=1;i<coins.size();i++){
+        for(int T=0;T<=amount;T++){
+            int notTake = dp[T];
 
-    // return recurse(n-1,k,arr);
-    vector<bool> dp(k+1,false), cur(k+1,false);
-    dp[arr[0]] = true;
-    dp[0] = true;
-    cur[0] = true;
+            int take = INT_MAX-1;
 
-    for(int index = 1;index<n;index++){
-        for(int target = 1;target<=k;target++){
+            if(coins[i] <= T){
+                take = 1 + cur[T-coins[i]];
+            }
 
-            bool take = false;
-            bool notTake = dp[target];
-            if(arr[index] <= target) take = dp[target-arr[index]];
-
-            cur[target] = take | notTake;
-
-
+            cur[T] = min(take,notTake);
         }
 
         dp = cur;
     }
 
-    return dp[k];
-}
-bool canPartition(vector<int>& nums) {
-
-    int sum = 0;
-    for(int i=0;i<nums.size();i++){
-        sum+=nums[i];
-    }
-    return sum%2 ? false : subsetSumtoX(nums.size(),sum/2,nums);
-        
-}
-int minimumDifference(vector<int>& arr) {
-    int k =0;
-    for(int i=0;i<arr.size();i++) k+=arr[i];
-    vector<bool> dp(k+1,false), cur(k+1,false);
-    dp[arr[0]] = true;
-    dp[0] = true;
-    cur[0] = true;
-
-    for(int index = 1;index<arr.size();index++){
-        for(int target = 1;target<=k;target++){
-
-            bool take = false;
-            bool notTake = dp[target];
-            if(arr[index] <= target) take = dp[target-arr[index]];
-
-            cur[target] = take | notTake;
-
-
-        }
-
-        dp = cur;
-    }
-
-
-
-    int mini = INT_MAX;
-
-    for(int s1 = 0;s1<=k;s1++){
-        if(dp[s1] == true){
-            mini = min(mini,abs(k-s1-s1));
-        }
-    }
-    return mini;
-        
+    return dp[amount];
+    
 }
 
 
@@ -190,11 +158,11 @@ int minimumDifference(vector<int>& arr) {
 
 int main(){
 
-    vector<int> q = {3,9,7,3};
+    vector<int> q = {1,2,5};
     int target = 8;
     vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
     // vector<vector<int>> que = {{-10}};
-    cout<<minimumDifference(q);
+    cout<<coinChange(q,11);
     
 
 }
