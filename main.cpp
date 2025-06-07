@@ -92,77 +92,66 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-int recurse(int index, int target, vector<int>& coins) {
-    if (target == 0) return 0;
-    
+int recurse(int index, int target, vector<int>& nums, vector<vector<int>> &dp, int offset) {
+     
+    if(dp[index][target + offset] != INT_MIN){
+        return dp[index][target + offset];
+    }
     if(index == 0){
-        if(target%coins[0]==0){
-            return target/coins[0];
-        }
-        return INT_MAX-1;
+        return (target == nums[0]) + (target == -nums[0]);
     }
-    
-    int notTake = recurse(index - 1, target, coins);
-    
-    int take = INT_MAX - 1;
-    if (coins[index] <= target) 
-        take = 1 + recurse(index, target - coins[index], coins);
-    
-    return min(take, notTake);  
+
+    int l = recurse(index-1, target+nums[index], nums, dp, offset);
+    int r = recurse(index-1, target-nums[index], nums, dp, offset);
+
+    return dp[index][target + offset] = l+r;
 }
 
-int coinChange(vector<int>& coins, int amount) {
-    // int result = recurse(coins.size() - 1, amount, coins);
-    // return result == INT_MAX - 1 ? -1 : result;
 
-    vector<int> dp(amount+1,0),cur(amount+1,0);
-
-    if(amount == 0) return 0;
-
-    for(int T=0;T<=amount;T++){
-        if(T%coins[0] == 0){
-            dp[T] = T/coins[0];
-        }else{
-            dp[T] = INT_MAX-1;
-        }
+int findTargetSumWays(vector<int>& nums, int target) {
+    int totalSum = 0;
+    for(int i = 0; i < nums.size(); i++) {
+        totalSum += nums[i];
     }
-
-
-    for(int i=1;i<coins.size();i++){
-        for(int T=0;T<=amount;T++){
-            int notTake = dp[T];
-
-            int take = INT_MAX-1;
-
-            if(coins[i] <= T){
-                take = 1 + cur[T-coins[i]];
+    
+    if(abs(target) > totalSum) return 0;
+    
+    if((totalSum - target) % 2 != 0) return 0;
+    
+    int sum = (totalSum + target) / 2;
+    if(sum < 0) return 0;
+    
+    int n = nums.size();
+    vector<int> prev(sum + 1, 0), curr(sum + 1, 0);
+    
+    prev[0] = 1;
+    
+    if(nums[0] <= sum) {
+        prev[nums[0]] = 1;
+    }
+    
+    for(int i = 1; i < n; i++) {
+        for(int j = 0; j <= sum; j++) {
+            int notTake = prev[j];
+            int take = 0;
+            if(nums[i] <= j) {
+                take = prev[j - nums[i]];
             }
-
-            cur[T] = min(take,notTake);
+            curr[j] = notTake + take;
         }
-
-        dp = cur;
+        prev = curr;
     }
-
-    return dp[amount];
     
+    return prev[sum];
 }
-
-
-
-
-
-
-
-
 
 int main(){
 
-    vector<int> q = {1,2,5};
-    int target = 8;
+    vector<int> q = {1,1,1,1,1};
+    int target = 3;
     vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
-    // vector<vector<int>> que = {{-10}};
-    cout<<coinChange(q,11);
+
+    cout<<findTargetSumWays(q,target);
     
 
 }
