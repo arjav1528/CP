@@ -105,16 +105,18 @@ int recurse(int index1, int index2, string text1, string text2) {
 
 
 
-int longestCommonSubsequence(string text1, string text2) {
+int longestCommonSubsequence(string text1, string text2, string &ans) {
     // return recurse(text1.length()-1,text2.length()-1,text1,text2);
     int m = text1.length();
     int n = text2.length();
     vector<int> dp(m+1,0),cur(m+1,0);
+    
 
     for(int i=1;i<=n;i++){
         for(int j=1;j<=m;j++){
             if(text1[j-1] == text2[i-1]){
                 cur[j] = 1 + dp[j-1];
+                ans = ans + text1[j-1];
             }else{
                 cur[j] = max(dp[j],cur[j-1]);
             }
@@ -130,9 +132,11 @@ int main(){
 
     string text1 = "abcde";
     string text2 = "ace";
+    string ans = "";
     vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
 
-    cout<<longestCommonSubsequence(text1,text2);
+    cout<<longestCommonSubsequence(text1,text2,ans);
+    cout<<ans;
     
 
 }
