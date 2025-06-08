@@ -92,25 +92,47 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]){
 
 }
 
-int recurse(int index, int ) {
-     
-    if(index == 0)
+int recurse(int index1, int index2, string text1, string text2) {
+
+    if(index1<0 || index2<0) return 0;
+
+    if(text1[index1] == text2[index2]){
+        return 1 + recurse(index1-1,index2-1,text1,text2);
+    }else{
+        return max(recurse(index1-1,index2,text1,text2), recurse(index1,index2-1,text1,text2));
+    }
 }
 
 
 
-int paintWalls(vector<int>& cost, vector<int>& time) {
+int longestCommonSubsequence(string text1, string text2) {
+    // return recurse(text1.length()-1,text2.length()-1,text1,text2);
+    int m = text1.length();
+    int n = text2.length();
+    vector<int> dp(m+1,0),cur(m+1,0);
+
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            if(text1[j-1] == text2[i-1]){
+                cur[j] = 1 + dp[j-1];
+            }else{
+                cur[j] = max(dp[j],cur[j-1]);
+            }
+        }
+        dp = cur;
+    }
+
+    return dp[m];
         
 }
 
 int main(){
 
-    vector<int> q = {1,2,3,2};
-    vector<int> q2 = {1,2,3,2};
-    int target = 3;
+    string text1 = "abcde";
+    string text2 = "ace";
     vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
 
-    cout<<paintWalls(q,q2);
+    cout<<longestCommonSubsequence(text1,text2);
     
 
 }
