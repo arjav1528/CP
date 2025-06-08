@@ -110,13 +110,11 @@ int longestCommonSubsequence(string text1, string text2) {
     int m = text1.length();
     int n = text2.length();
     vector<int> dp(m+1,0),cur(m+1,0);
-    
 
     for(int i=1;i<=n;i++){
         for(int j=1;j<=m;j++){
             if(text1[j-1] == text2[i-1]){
                 cur[j] = 1 + dp[j-1];
-                // ans = ans + text1[j-1];
             }else{
                 cur[j] = max(dp[j],cur[j-1]);
             }
@@ -128,26 +126,19 @@ int longestCommonSubsequence(string text1, string text2) {
         
 }
 
-int longestPalindromeSubseq(string s) {
-
-    string t = s;
-    reverse(t.begin(),t.end());
-
-    return longestCommonSubsequence(s,t);
-        
-        
-}
 
 int main(){
 
-    string text1 = "cbbd";
-    string text2 = text1;
-    reverse(text2.begin(),text2.end());
+    string text1 = "sea";
+    string text2 = "eat";
+    // reverse(text2.begin(),text2.end());
     string ans = "";
     vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
+    int first = text1.length() - longestCommonSubsequence(text1,text2);
+    int second = text2.length() - longestCommonSubsequence(text1,text2);
 
-    cout<<longestCommonSubsequence(text1,text2);
-    cout<<ans;
+    cout<<first+second;
+    // cout<<ans;
     
 
 }
