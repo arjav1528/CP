@@ -131,7 +131,6 @@ int main(){
 
     string text1 = "sea";
     string text2 = "eat";
-    // reverse(text2.begin(),text2.end());
     string ans = "";
     vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
     int first = text1.length() - longestCommonSubsequence(text1,text2);
