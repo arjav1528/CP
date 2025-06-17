@@ -33,58 +33,35 @@ class Node{
         }
 };
 
+void recurse( int nrow, int ncol, vector<vector<int>> &image, vector<vector<int>> &visible, vector<int> drow, vector<int> dcol,int color, int initial){
 
-int orangesRotting(vector<vector<int>>& grid) {
+    for(int i=0;i<4;i++){
+        int r = nrow + drow[i];
+        int c = ncol + dcol[i];
 
-    queue<pair<pair<int,int>,int>> q;
-    int n = grid.size();
-    int m = grid[0].size();
-    int vis[n][m];
-
-    for(int i=0;i<n;i++){
-        for(int j=0;j<m;j++){
-            if(grid[i][j] == 2){
-                q.push({{i,j},0});
-                vis[i][j] = 2;
-            }else{
-                vis[i][j] = 0;
-            }
+        if(r>=0 && r<image.size() && c>=0 && c<image[0].size() && visible[r][c]!=color && image[r][c] == initial){
+            image[r][c] = color;
+            visible[r][c] = color;
+            recurse(r,c,image,visible,drow,dcol,color, initial);
         }
+
     }
 
-    int tm = 0;
+}
+
+vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+    int n = image.size();
+    int m = image[0].size();
+    vector<vector<int>> visible(n, vector<int> (m, 0));
+    int initial = image[sr][sc];
+    visible[sr][sc] = color;
+    image[sr][sc] = color;
     vector<int> drow = {-1,0,1,0};
     vector<int> dcol = {0,1,0,-1};
 
-    while(!q.empty()){
-        int r = q.front().first.first;
-        int c = q.front().first.second;
-        int t = q.front().second;
-        q.pop();
+    recurse(sr,sc,image,visible,drow,dcol,color, initial);
 
-        tm = max(t,tm);
-
-        for(int i=0;i<4;i++){
-            int nrow = r + drow[i];
-            int ncol = c + dcol[i];
-
-            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && vis[nrow][ncol]!=2 && grid[nrow][ncol]==1){
-                q.push({{nrow,ncol},t+1});
-                vis[nrow][ncol] = 2;
-
-            }
-        }
-    }
-
-    for(int i=0;i<n;i++){
-        for(int j=0;j<m;j++){
-            if(vis[i][j] != 2 && grid[i][j] ==1){
-                return -1;
-            }
-        }
-    }
-    return tm;
-        
+    return image;
 }
 int main(){
 
@@ -115,6 +92,14 @@ int main(){
         }
     }
 
-    cout << orangesRotting(grid);
+    vector<vector<int>> finalAns = floodFill(grid,1,1,2);
+
+
+    for(int i=0;i<finalAns.size();i++){
+        for(int j=0;j<finalAns[i].size();j++){
+            cout<<finalAns[i][j]<<" ";
+        }
+        cout<<endl;
+    }
 }
 
