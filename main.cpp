@@ -33,111 +33,50 @@ class Node{
         }
 };
 
-vector<int> bfsOfGraph(int V, vector<int> adj[]){
-    
-    int vis[V] = {0};
-    queue<int> q;
-    vector<int> bfs;
-    q.push(0);
-    vis[0] = 1;
 
-    while(!q.empty()){
-        int node = q.front();
-        bfs.push_back(node);
+void dfs(int node, vector<vector<int>>& adj, vector<int>& visited) {
+    visited[node] = 1;
+    for (int neighbor : adj[node]) {
+        if (!visited[neighbor]) {
+            dfs(neighbor, adj, visited);
+        }
+    }
+}
 
-        q.pop();
-
-        for(auto it : adj[node]){
-            if(!vis[it]){
-                // cout<<it<<endl;
-                vis[it] = 1;
-                q.push(it);
-
+int findCircleNum(vector<vector<int>>& isConnected) {
+    int n = isConnected.size();
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (isConnected[i][j] == 1 && i != j) {
+                adj[j].push_back(i);
             }
         }
-        
     }
 
-    return bfs;
-}
-
-void dfs(int node, vector<int> adj[],int vis[], vector<int> &ls){
-
-    vis[node] = 1;
-
-    ls.push_back(node);
-
-    for(auto it : adj[node]){
-        if(!vis[it]){
-            dfs(it,adj,vis,ls);
+    // cout << "Adjacency List:" << endl;
+    // for (int i = 0; i < n; i++) {
+    //     cout << i << ": ";
+    //     for (int neighbor : adj[i]) {
+    //         cout << neighbor << " ";
+    //     }
+    //     cout << endl;
+    // }
+    int count = 0;
+    vector<int> visited(n, 0);
+    for (int i = 0; i < n; i++) {
+        if (!visited[i]) {
+            count++;
+            dfs(i, adj, visited);
         }
     }
-
+    return count;
 }
-
-
-
-
-vector<int> dfsOfGraph(int V, vector<int> adj[]){
-    int vis[V] = {0};
-    vector<int> ls;
-    int start = 0;
-
-    dfs(start,adj,vis,ls);
-
-    return ls;
-
-
-
-
-}
-
-int recurse(int index1, int index2, string text1, string text2) {
-
-    if(index1<0 || index2<0) return 0;
-
-    if(text1[index1] == text2[index2]){
-        return 1 + recurse(index1-1,index2-1,text1,text2);
-    }else{
-        return max(recurse(index1-1,index2,text1,text2), recurse(index1,index2-1,text1,text2));
-    }
-}
-
-
-
-int longestCommonSubsequence(string text1, string text2) {
-    // return recurse(text1.length()-1,text2.length()-1,text1,text2);
-    int m = text1.length();
-    int n = text2.length();
-    vector<int> dp(m+1,0),cur(m+1,0);
-
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=m;j++){
-            if(text1[j-1] == text2[i-1]){
-                cur[j] = 1 + dp[j-1];
-            }else{
-                cur[j] = max(dp[j],cur[j-1]);
-            }
-        }
-        dp = cur;
-    }
-
-    return dp[m];
-        
-}
-
-
 int main(){
 
-    string text1 = "sea";
-    string text2 = "eat";
-    string ans = "";
-    vector<vector<int>> que = {{2,1,3},{6,5,4},{7,8,9}};
-    int first = text1.length() - longestCommonSubsequence(text1,text2);
-    int second = text2.length() - longestCommonSubsequence(text1,text2);
+    vector<vector<int>> isConnected = {{1,1,0},{1,1,0},{0,0,1}};
 
-    cout<<first+second;
-    // cout<<ans;
+    cout<<findCircleNum(isConnected);
     
 
 }
