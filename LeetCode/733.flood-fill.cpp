@@ -101,9 +101,7 @@ public:
     }
 
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
-        int n = image.size();
-        int m = image[0].size();
-        vector<vector<int>> visible(n, vector<int> (m, 0));
+        vector<vector<int>> visible(image.size(), vector<int> (image[0].size(), 0));
         int initial = image[sr][sc];
         visible[sr][sc] = color;
         image[sr][sc] = color;
