@@ -33,41 +33,58 @@ class Node{
         }
 };
 
-void recurse( int nrow, int ncol, vector<vector<int>> &image, vector<vector<int>> &visible, vector<int> drow, vector<int> dcol,int color, int initial){
+vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+    int m = mat.size();
+    int n = mat[0].size();
+    vector<vector<int>> vis(n,vector<int>(m,0));
+    vector<vector<int>> dist(n,vector<int>(m,0));
+    queue<pair<pair<int,int>,int>> q;
 
-    for(int i=0;i<4;i++){
-        int r = nrow + drow[i];
-        int c = ncol + dcol[i];
-
-        if(r>=0 && r<image.size() && c>=0 && c<image[0].size() && visible[r][c]!=color && image[r][c] == initial){
-            image[r][c] = color;
-            visible[r][c] = color;
-            recurse(r,c,image,visible,drow,dcol,color, initial);
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(mat[i][j] == 0){
+                q.push({{i,j},0});
+                vis[i][j] = 1;
+            }else{
+                vis[i][j] = 0;
+            }
         }
-
     }
 
-}
-
-vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
-    int n = image.size();
-    int m = image[0].size();
-    vector<vector<int>> visible(n, vector<int> (m, 0));
-    int initial = image[sr][sc];
-    visible[sr][sc] = color;
-    image[sr][sc] = color;
     vector<int> drow = {-1,0,1,0};
     vector<int> dcol = {0,1,0,-1};
 
-    recurse(sr,sc,image,visible,drow,dcol,color, initial);
+    while(!q.empty()){
+        int row = q.front().first.first;
+        int col = q.front().first.second;
+        int step = q.front().second;
+        q.pop();
 
-    return image;
+        dist[row][col] = step;
+
+        for(int i=0;i<4;i++){
+            int r = row + drow[i];
+            int c = col + dcol[i];
+
+            if(r>=0 && r<n && c>=0 && c<m && vis[r][c]==0){
+                vis[r][c] = 1;
+                q.push({{r,c},step+1});
+            }
+        }
+    }
+
+    return dist;
 }
+
+
+
+
 int main(){
 
     vector<vector<int>> grid;
     string input;
     cin >> input;
+
 
     vector<int> row;
     int num = 0;
@@ -92,7 +109,16 @@ int main(){
         }
     }
 
-    vector<vector<int>> finalAns = floodFill(grid,1,1,2);
+
+    for(int i=0;i<grid.size();i++){
+        for(int j=0;j<grid[i].size();j++){
+            cout<<grid[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<endl<<endl;
+
+    vector<vector<int>> finalAns = updateMatrix(grid);
 
 
     for(int i=0;i<finalAns.size();i++){
