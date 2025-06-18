@@ -52,6 +52,7 @@
 // @lc code=start
 class Solution {
     public int minFallingPathSum(int[][] matrix) {
+        
         int n = matrix.length;
         int[] dp = new int[n];
         int[] cur = new int[n];
