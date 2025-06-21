@@ -95,16 +95,89 @@ class Input{
         }
 };
 
+class Output{
+    public:
+        void intOutput(vector<vector<int>> vec){
+            for(int i=0;i<vec.size();i++){
+                for(int j=0;j<vec[i].size();j++){
+                    cout<<vec[i][j]<<" ";
+                }
+                cout<<endl;
+            }
+        }
+    
+    public:
+        void charOutput(vector<vector<char>> vec){
+            for(int i=0;i<vec.size();i++){
+                for(int j=0;j<vec[i].size();j++){
+                    cout<<vec[i][j]<<" ";
+                }
+                cout<<endl;
+            }
+        }
+
+};
+
+
+bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+
+    vector<int> adj[numCourses];
+
+    for(auto it : prerequisites){
+        adj[it[1]].push_back(it[0]);
+    }
+
+    vector<int> inDegree(numCourses,0);
+
+    for(int i=0;i<numCourses;i++){
+        for(auto it : adj[i]){
+            inDegree[it]++;
+        }
+    }
+    queue<int> q;
+
+    for(int i=0;i<numCourses;i++){
+        if(inDegree[i] == 0){
+            q.push(i);
+        }
+    }
+
+    if(q.empty()){
+        return false;
+    }
+    int count = 0;
+
+    while(!q.empty()){
+        int node = q.front();
+        q.pop();
+        count++;
+
+        for(auto it : adj[node]){
+            inDegree[it]--;
+            if(inDegree[it] == 0){
+                q.push(it);
+            }
+            
+        }
+
+    }
+    return count==numCourses;
+
+        
+}
+
 
 
 
 int main(){
     Input input = Input();
+    Output output = Output();
     
     vector<vector<int>> grid = input.intInput();
-    int ans = numEnclaves(grid);
 
-    cout<<ans;
+    cout<<canFinish(2,grid);
+
+    
 
 
 
