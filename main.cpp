@@ -166,6 +166,52 @@ bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         
 }
 
+vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+    vector<int> adj[numCourses];
+
+    for(auto it : prerequisites){
+        adj[it[1]].push_back(it[0]);
+    }
+
+    vector<int> inDegree(numCourses,0);
+
+    for(int i=0;i<numCourses;i++){
+        for(auto it : adj[i]){
+            inDegree[it]++;
+        }
+    }
+    queue<int> q;
+
+    for(int i=0;i<numCourses;i++){
+        if(inDegree[i] == 0){
+            q.push(i);
+        }
+    }
+
+    vector<int> vec;
+
+    while(!q.empty()){
+        int node = q.front();
+        q.pop();
+        vec.push_back(node);
+
+        for(auto it : adj[node]){
+            inDegree[it]--;
+            if(inDegree[it] == 0){
+                q.push(it);
+            }
+            
+        }
+
+    }
+    if(vec.size()==numCourses){
+        return vec;
+    }else{
+        return {};
+    }
+        
+}
+
 
 
 
@@ -174,8 +220,13 @@ int main(){
     Output output = Output();
     
     vector<vector<int>> grid = input.intInput();
+    vector<int> ans = findOrder(3,grid);
 
-    cout<<canFinish(2,grid);
+    for(int i=0;i<ans.size();i++){
+        cout<<ans[i]<<" ";
+    }
+
+    
 
     
 
