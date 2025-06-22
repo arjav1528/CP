@@ -97,7 +97,7 @@ class Input{
 
 class Output{
     public:
-        void intOutput(vector<vector<int>> vec){
+        static void intOutput(vector<vector<int>> vec){
             for(int i=0;i<vec.size();i++){
                 for(int j=0;j<vec[i].size();j++){
                     cout<<vec[i][j]<<" ";
@@ -107,7 +107,7 @@ class Output{
         }
     
     public:
-        void charOutput(vector<vector<char>> vec){
+        static void charOutput(vector<vector<char>> vec){
             for(int i=0;i<vec.size();i++){
                 for(int j=0;j<vec[i].size();j++){
                     cout<<vec[i][j]<<" ";
@@ -119,118 +119,57 @@ class Output{
 };
 
 
-bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
 
-    vector<int> adj[numCourses];
 
-    for(auto it : prerequisites){
-        adj[it[1]].push_back(it[0]);
-    }
 
-    vector<int> inDegree(numCourses,0);
+vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+    int n = graph.size();
+    vector<vector<int>> adjRev(n);  
+    vector<int> inDegree(n, 0);
 
-    for(int i=0;i<numCourses;i++){
-        for(auto it : adj[i]){
-            inDegree[it]++;
+    for(int i = 0; i < n; i++){
+        for(auto it : graph[i]){
+            adjRev[it].push_back(i);
+            inDegree[i]++;
         }
     }
-    queue<int> q;
 
-    for(int i=0;i<numCourses;i++){
+    queue<int> q;
+    vector<int> finalAns;
+
+    for(int i = 0; i < n; i++){
         if(inDegree[i] == 0){
             q.push(i);
         }
     }
 
-    if(q.empty()){
-        return false;
-    }
-    int count = 0;
-
     while(!q.empty()){
         int node = q.front();
         q.pop();
-        count++;
+        finalAns.push_back(node);
 
-        for(auto it : adj[node]){
+        for(auto it : adjRev[node]){
             inDegree[it]--;
             if(inDegree[it] == 0){
                 q.push(it);
             }
-            
         }
-
     }
-    return count==numCourses;
 
-        
+    sort(finalAns.begin(), finalAns.end());
+    return finalAns;
 }
-
-vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-    vector<int> adj[numCourses];
-
-    for(auto it : prerequisites){
-        adj[it[1]].push_back(it[0]);
-    }
-
-    vector<int> inDegree(numCourses,0);
-
-    for(int i=0;i<numCourses;i++){
-        for(auto it : adj[i]){
-            inDegree[it]++;
-        }
-    }
-    queue<int> q;
-
-    for(int i=0;i<numCourses;i++){
-        if(inDegree[i] == 0){
-            q.push(i);
-        }
-    }
-
-    vector<int> vec;
-
-    while(!q.empty()){
-        int node = q.front();
-        q.pop();
-        vec.push_back(node);
-
-        for(auto it : adj[node]){
-            inDegree[it]--;
-            if(inDegree[it] == 0){
-                q.push(it);
-            }
-            
-        }
-
-    }
-    if(vec.size()==numCourses){
-        return vec;
-    }else{
-        return {};
-    }
-        
-}
-
-
-
 
 int main(){
-    Input input = Input();
-    Output output = Output();
+    vector<vector<int>> grid = Input().intInput();
+    vector<int> ans = eventualSafeNodes(grid);
     
-    vector<vector<int>> grid = input.intInput();
-    vector<int> ans = findOrder(3,grid);
-
-    for(int i=0;i<ans.size();i++){
-        cout<<ans[i]<<" ";
+    for(int i = 0; i < ans.size(); i++){
+        cout << ans[i];
+        if(i < ans.size() - 1) cout << ",";
     }
-
+    cout << endl;
     
-
-    
-
-
-
+    return 0;
 }
 
