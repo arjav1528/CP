@@ -119,34 +119,69 @@ class Output{
 };
 
 
-vector<int> shortestPath(vector<vector<int>>& adj, int src) {
-    vector<int> dist(adj.size(), 1e9);
-    
-    // Fix: Initialize source distance to 0
-    dist[src] = 0;
-    
-    queue<int> q;
-    q.push(src);
+void topoSort(int node, vector<vector<pair<int,int>>> adj, stack<int> &s, vector<int> &vis){
+    vis[node] = 1;
+    for(auto it : adj[node]){
+        if(!vis[it.first]){
+            topoSort(it.first,adj,s,vis);
+        }
+    }
 
-    while(!q.empty()){
-        int node = q.front();
-        q.pop();
+    s.push(node);
+}
 
-        for(auto it : adj[node]){
-            // Fix: Check if this gives a shorter path
-            if(dist[node] + 1 < dist[it]){
-                dist[it] = dist[node] + 1;
-                q.push(it);
+vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
+    // Fix: Use V instead of edges.size() for adjacency list
+    vector<vector<pair<int,int>>> adj(V);
+    for(int i=0;i<edges.size();i++){ 
+        adj[edges[i][0]].push_back({edges[i][1],edges[i][2]});
+    }
+
+    stack<int> s;
+    vector<int> vis(V,0);
+    
+    for(int i=0;i<V;i++){
+        if(!vis[i]) {
+            topoSort(i,adj,s,vis);
+        }
+    }
+
+    vector<int> dist(V, INT_MAX);
+    dist[0] = 0; 
+    
+    while(!s.empty()) {
+        int u = s.top();
+        s.pop();
+        
+        if(dist[u] != INT_MAX) {
+            for(auto it : adj[u]) {
+                int v = it.first;
+                int weight = it.second;
+                if(dist[u] + weight < dist[v]) {
+                    dist[v] = dist[u] + weight;
+                }
             }
         }
     }
+    
     return dist;
 }
 
-int main(){
-    vector<vector<int>> grid = {{1,3},{0,2},{1,6},{0,4},{3,5},{4,6},{2, 5, 7, 8},{6, 8},{7,6}};
 
-    vector<int> ans = shortestPath(grid,0);
+
+
+int main(){
+    vector<vector<int>> grid = {
+        {0,1,2}, 
+        {0,4,1}, 
+        {4,5,4}, 
+        {4,2,2}, 
+        {1,2,3}, 
+        {2,3,6}, 
+        {5,3,1}
+    };
+    vector<int> ans = shortestPath(6,7,grid);
+
 
     for(int i=0;i<ans.size();i++){
         cout<<ans[i]<<" ";
