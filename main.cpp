@@ -118,69 +118,63 @@ class Output{
 
 };
 
+vector<int> shortestPath(int n, int m, vector<vector<int>>& edges) {
+    vector<vector<pair<int,int>>> adj(n+1);
 
-void topoSort(int node, vector<vector<pair<int,int>>> adj, stack<int> &s, vector<int> &vis){
-    vis[node] = 1;
-    for(auto it : adj[node]){
-        if(!vis[it.first]){
-            topoSort(it.first,adj,s,vis);
-        }
+    for(auto it : edges){
+        adj[it[0]].push_back({it[1],it[2]});
+        adj[it[1]].push_back({it[0],it[2]});
     }
 
-    s.push(node);
-}
+    set<pair<int,int>> st;
+    st.insert({0,1});
+    vector<int> dist(n+1, 1e9), parent(n+1);
+    dist[1] = 0;
+    for(int i=1;i<=n;i++) parent[i] = i;
 
-vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
-    // Fix: Use V instead of edges.size() for adjacency list
-    vector<vector<pair<int,int>>> adj(V);
-    for(int i=0;i<edges.size();i++){ 
-        adj[edges[i][0]].push_back({edges[i][1],edges[i][2]});
-    }
-
-    stack<int> s;
-    vector<int> vis(V,0);
-    
-    for(int i=0;i<V;i++){
-        if(!vis[i]) {
-            topoSort(i,adj,s,vis);
-        }
-    }
-
-    vector<int> dist(V, INT_MAX);
-    dist[0] = 0; 
-    
-    while(!s.empty()) {
-        int u = s.top();
-        s.pop();
+    while(!st.empty()){
+        auto it = st.begin();
+        int wt = it->first;
+        int node = it->second;
+        st.erase(it);
         
-        if(dist[u] != INT_MAX) {
-            for(auto it : adj[u]) {
-                int v = it.first;
-                int weight = it.second;
-                if(dist[u] + weight < dist[v]) {
-                    dist[v] = dist[u] + weight;
+        for(auto neighbor : adj[node]){
+            int adjNode = neighbor.first;
+            int edgeWt = neighbor.second;
+            
+            if(wt + edgeWt < dist[adjNode]){
+                if(dist[adjNode] != 1e9){
+                    st.erase({dist[adjNode], adjNode});
                 }
+                
+                dist[adjNode] = wt + edgeWt;
+                parent[adjNode] = node;
+                st.insert({dist[adjNode], adjNode});
             }
         }
     }
     
-    return dist;
+    if(dist[n] == 1e9) return {-1};
+    vector<int> path;
+    int current = n;
+    while(parent[current] != current){
+        path.push_back(current);
+        current = parent[current];
+    }
+    path.push_back(1);
+    
+    reverse(path.begin(), path.end());
+    return path;
 }
-
 
 
 
 int main(){
     vector<vector<int>> grid = {
-        {0,1,2}, 
-        {0,4,1}, 
-        {4,5,4}, 
-        {4,2,2}, 
-        {1,2,3}, 
-        {2,3,6}, 
-        {5,3,1}
+        {1, 2, 2}, {2, 5, 5}, {2, 3, 4}, {1, 4, 1}, {4, 3, 3}, {3, 5, 1}
+
     };
-    vector<int> ans = shortestPath(6,7,grid);
+    vector<int> ans = shortestPath(5,grid.size(),grid);
 
 
     for(int i=0;i<ans.size();i++){
