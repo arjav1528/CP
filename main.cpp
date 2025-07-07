@@ -119,57 +119,42 @@ class Output{
 };
 
 
-
-
-
-vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-    int n = graph.size();
-    vector<vector<int>> adjRev(n);  
-    vector<int> inDegree(n, 0);
-
-    for(int i = 0; i < n; i++){
-        for(auto it : graph[i]){
-            adjRev[it].push_back(i);
-            inDegree[i]++;
-        }
-    }
-
+vector<int> shortestPath(vector<vector<int>>& adj, int src) {
+    vector<int> dist(adj.size(), 1e9);
+    
+    // Fix: Initialize source distance to 0
+    dist[src] = 0;
+    
     queue<int> q;
-    vector<int> finalAns;
-
-    for(int i = 0; i < n; i++){
-        if(inDegree[i] == 0){
-            q.push(i);
-        }
-    }
+    q.push(src);
 
     while(!q.empty()){
         int node = q.front();
         q.pop();
-        finalAns.push_back(node);
 
-        for(auto it : adjRev[node]){
-            inDegree[it]--;
-            if(inDegree[it] == 0){
+        for(auto it : adj[node]){
+            // Fix: Check if this gives a shorter path
+            if(dist[node] + 1 < dist[it]){
+                dist[it] = dist[node] + 1;
                 q.push(it);
             }
         }
     }
-
-    sort(finalAns.begin(), finalAns.end());
-    return finalAns;
+    return dist;
 }
 
 int main(){
-    vector<vector<int>> grid = Input().intInput();
-    vector<int> ans = eventualSafeNodes(grid);
-    
-    for(int i = 0; i < ans.size(); i++){
-        cout << ans[i];
-        if(i < ans.size() - 1) cout << ",";
+    vector<vector<int>> grid = {{1,3},{0,2},{1,6},{0,4},{3,5},{4,6},{2, 5, 7, 8},{6, 8},{7,6}};
+
+    vector<int> ans = shortestPath(grid,0);
+
+    for(int i=0;i<ans.size();i++){
+        cout<<ans[i]<<" ";
     }
-    cout << endl;
+
+
     
-    return 0;
+    
+    
 }
 
