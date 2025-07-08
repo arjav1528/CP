@@ -118,47 +118,59 @@ class Output{
 
 };
 
-void dfs(int x, int){
+void toposort(int node,vector<int> &vis, vector<vector<pair<int,int>>> adj,stack<int> &st){
+    vis[node] = 1;
+
+    for(auto it : adj[node]){
+        if(!vis[it.first]){
+            toposort(it.first,vis,adj,st);
+        }
+    }
+    st.push(node);
 
 }
 
-int minimumEffortPath(vector<vector<int>>& heights) {
 
-    int n = heights.size();
-    int m = heights[0].size();
-    
-    vector<vector<int>> dist(heights.size(),vector<int>(heights[0].size(),1e9));
-    set<pair<int,pair<int,int>>> st;
-    st.insert({0,{0,0}});
-    dist[0][0] = 0;
-    vector<int> drow = {-1,0,1,0};
-    vector<int> dcol = {0,1,0,-1};
 
-    while(!st.empty()){
-        auto it = *st.begin();
-        int distance = it.first;
-        int row = it.second.first;
-        int col = it.second.second;
+int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
 
-        if(row == n-1 && col == m-1) return distance;
+    vector<vector<pair<int,int>>> adj(n);
 
-        st.erase(st.begin());
+    for(int i=0;i<flights.size();i++){
+        adj[flights[i][0]].push_back({flights[i][1],flights[i][2]});
+    }
 
-        for(int i=0;i<4;i++){
-            int nrow = row + drow[i];
-            int ncol = col + dcol[i];
+    queue<pair<int,pair<int,int>>> q;
+    q.push({0,{src,0}});
 
-            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m){
-                int newEffort = max(distance,abs(heights[row][col] - heights[nrow][ncol]));
-                if(newEffort < dist[nrow][ncol]){
-                    dist[nrow][ncol] = newEffort;
-                    st.insert({newEffort,{nrow,ncol}});
-                }
+    vector<int> dist(n,1e9);
+    dist[src] = 0;
+
+    while(!q.empty()){
+        
+        int stops = q.front().first;
+        int node = q.front().second.first;
+        int distance = q.front().second.second;
+
+        q.pop();
+
+        if(stops > k) continue;
+
+        for(auto it : adj[node]){
+            int edgeWt = it.second;
+            if(distance + edgeWt < dist[it.first] && stops <= k){
+                dist[it.first] = distance + edgeWt;
+                q.push({stops+1,{it.first,distance + edgeWt}});
             }
         }
     }
 
-    return 0;
+
+    return dist[dst] == 1e9 ? -1 : dist[dst];
+
+
+    
+
 
         
 }
@@ -170,7 +182,7 @@ int main(){
     vector<vector<int>> grid = Input().intInput();
 
 
-    cout<<minimumEffortPath(grid);
+    cout<<findCheapestPrice(3,grid,0,2,0);
 
 
     
