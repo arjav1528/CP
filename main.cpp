@@ -118,67 +118,55 @@ class Output{
 
 };
 
-vector<int> shortestPath(int n, int m, vector<vector<int>>& edges) {
-    vector<vector<pair<int,int>>> adj(n+1);
+void dfs(int x, int){
 
-    for(auto it : edges){
-        adj[it[0]].push_back({it[1],it[2]});
-        adj[it[1]].push_back({it[0],it[2]});
+}
+
+int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+    int n = grid.size();
+    int m = grid[0].size();
+    
+    if(grid[0][0] == 1 || grid[n-1][m-1] == 1) {
+        return -1;
+    }
+    
+    if(n == 1 && m == 1) {
+        return 1;
     }
 
-    stack<pair<int,int>> st;
-    st.push({0,1});
-    vector<int> dist(n+1, 1e9), parent(n+1);
-    vector<bool> visited(n+1, false);
-    dist[1] = 0;
-    for(int i=1;i<=n;i++) parent[i] = i;
+    vector<vector<int>> dist(n, vector<int>(m, 1e9));
+    dist[0][0] = 1; 
 
-    while(!st.empty()){
-        int wt = st.top().first;
-        int node = st.top().second;
-        st.pop();
-        
-        if(visited[node]) continue;
-        visited[node] = true;
-        
-        for(auto neighbor : adj[node]){
-            int adjNode = neighbor.first;
-            int edgeWt = neighbor.second;
-            
-            if(!visited[adjNode] && wt + edgeWt < dist[adjNode]){
-                dist[adjNode] = wt + edgeWt;
-                parent[adjNode] = node;
-                st.push({dist[adjNode], adjNode});
+    vector<int> delRow = {-1, -1, -1, 0, 0, 1, 1, 1};
+    vector<int> delCol = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+    queue<pair<int, int>> q; 
+    q.push({0, 0});
+
+    while(!q.empty()){
+        int row = q.front().first;
+        int col = q.front().second;
+        q.pop();
+
+        for(int i = 0; i < 8; i++){
+            int nrow = row + delRow[i];
+            int ncol = col + delCol[i];
+
+            if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && 
+               grid[nrow][ncol] == 0 && dist[row][col] + 1 < dist[nrow][ncol]){
+                dist[nrow][ncol] = dist[row][col] + 1;
+                q.push({nrow, ncol});
             }
         }
     }
     
-    if(dist[n] == 1e9) return {-1};
-    vector<int> path;
-    int current = n;
-    while(parent[current] != current){
-        path.push_back(current);
-        current = parent[current];
-    }
-    path.push_back(1);
-    
-    reverse(path.begin(), path.end());
-    return path;
+    return dist[n-1][m-1] == 1e9 ? -1 : dist[n-1][m-1];
 }
-
-
-
 int main(){
-    vector<vector<int>> grid = {
-        {1, 2, 2}, {2, 5, 5}, {2, 3, 4}, {1, 4, 1}, {4, 3, 3}, {3, 5, 1}
-
-    };
-    vector<int> ans = shortestPath(5,grid.size(),grid);
+    vector<vector<int>> grid = Input().intInput();
 
 
-    for(int i=0;i<ans.size();i++){
-        cout<<ans[i]<<" ";
-    }
+    cout<<shortestPathBinaryMatrix(grid);
 
 
     
