@@ -122,51 +122,55 @@ void dfs(int x, int){
 
 }
 
-int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
-    int n = grid.size();
-    int m = grid[0].size();
+int minimumEffortPath(vector<vector<int>>& heights) {
+
+    int n = heights.size();
+    int m = heights[0].size();
     
-    if(grid[0][0] == 1 || grid[n-1][m-1] == 1) {
-        return -1;
-    }
-    
-    if(n == 1 && m == 1) {
-        return 1;
-    }
+    vector<vector<int>> dist(heights.size(),vector<int>(heights[0].size(),1e9));
+    set<pair<int,pair<int,int>>> st;
+    st.insert({0,{0,0}});
+    dist[0][0] = 0;
+    vector<int> drow = {-1,0,1,0};
+    vector<int> dcol = {0,1,0,-1};
 
-    vector<vector<int>> dist(n, vector<int>(m, 1e9));
-    dist[0][0] = 1; 
+    while(!st.empty()){
+        auto it = *st.begin();
+        int distance = it.first;
+        int row = it.second.first;
+        int col = it.second.second;
 
-    vector<int> delRow = {-1, -1, -1, 0, 0, 1, 1, 1};
-    vector<int> delCol = {-1, 0, 1, -1, 1, -1, 0, 1};
+        if(row == n-1 && col == m-1) return distance;
 
-    queue<pair<int, int>> q; 
-    q.push({0, 0});
+        st.erase(st.begin());
 
-    while(!q.empty()){
-        int row = q.front().first;
-        int col = q.front().second;
-        q.pop();
+        for(int i=0;i<4;i++){
+            int nrow = row + drow[i];
+            int ncol = col + dcol[i];
 
-        for(int i = 0; i < 8; i++){
-            int nrow = row + delRow[i];
-            int ncol = col + delCol[i];
-
-            if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && 
-               grid[nrow][ncol] == 0 && dist[row][col] + 1 < dist[nrow][ncol]){
-                dist[nrow][ncol] = dist[row][col] + 1;
-                q.push({nrow, ncol});
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m){
+                int newEffort = max(distance,abs(heights[row][col] - heights[nrow][ncol]));
+                if(newEffort < dist[nrow][ncol]){
+                    dist[nrow][ncol] = newEffort;
+                    st.insert({newEffort,{nrow,ncol}});
+                }
             }
         }
     }
-    
-    return dist[n-1][m-1] == 1e9 ? -1 : dist[n-1][m-1];
+
+    return 0;
+
+        
 }
+
+
+
+
 int main(){
     vector<vector<int>> grid = Input().intInput();
 
 
-    cout<<shortestPathBinaryMatrix(grid);
+    cout<<minimumEffortPath(grid);
 
 
     
