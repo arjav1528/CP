@@ -126,30 +126,29 @@ vector<int> shortestPath(int n, int m, vector<vector<int>>& edges) {
         adj[it[1]].push_back({it[0],it[2]});
     }
 
-    set<pair<int,int>> st;
-    st.insert({0,1});
+    stack<pair<int,int>> st;
+    st.push({0,1});
     vector<int> dist(n+1, 1e9), parent(n+1);
+    vector<bool> visited(n+1, false);
     dist[1] = 0;
     for(int i=1;i<=n;i++) parent[i] = i;
 
     while(!st.empty()){
-        auto it = st.begin();
-        int wt = it->first;
-        int node = it->second;
-        st.erase(it);
+        int wt = st.top().first;
+        int node = st.top().second;
+        st.pop();
+        
+        if(visited[node]) continue;
+        visited[node] = true;
         
         for(auto neighbor : adj[node]){
             int adjNode = neighbor.first;
             int edgeWt = neighbor.second;
             
-            if(wt + edgeWt < dist[adjNode]){
-                if(dist[adjNode] != 1e9){
-                    st.erase({dist[adjNode], adjNode});
-                }
-                
+            if(!visited[adjNode] && wt + edgeWt < dist[adjNode]){
                 dist[adjNode] = wt + edgeWt;
                 parent[adjNode] = node;
-                st.insert({dist[adjNode], adjNode});
+                st.push({dist[adjNode], adjNode});
             }
         }
     }
